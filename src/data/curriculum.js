@@ -16,7 +16,6 @@ export const MODULES = [
       { id: '1.2', titre: 'La règle 50/30/20', resume: 'Construire son budget en 3 enveloppes' },
       { id: '1.3', titre: 'Le découvert et les frais bancaires', resume: 'Agios, commissions — comprendre et en sortir' },
       { id: '1.4', titre: 'Piloter au quotidien', resume: 'Se payer en premier, comptes séparés, applis' },
-      { id: '1.5', titre: 'Les aides que tu ne réclames pas', resume: 'APL, bourses, prime d’activité, aides locales' },
       { id: '1.6', titre: 'Ton cerveau et l’argent', resume: 'Achats impulsifs, paiement fractionné, pression sociale' },
     ],
   },

@@ -123,7 +123,7 @@ export default function App() {
   }
 
   const restart = () => {
-    if (!window.confirm('Repartir de zéro ? Ta progression sera effacée (pense à l’exporter avant).')) return
+    if (!window.confirm('Tout remettre à zéro ? Ta progression sera effacée (pense à l’exporter avant).')) return
     clearState()
     setProfile(null)
     setCompletedSubs([])

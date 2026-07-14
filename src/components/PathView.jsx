@@ -1,97 +1,110 @@
 import { MODULES } from '../data/curriculum.js'
-import { getModuleProgress, getNextSousModule } from '../lib/progression.js'
+import { getModuleProgress } from '../lib/progression.js'
 import KapiMascot from './KapiMascot.jsx'
 
-// Parcours « Pas à pas » — un chemin vertical sinueux façon Duolingo.
-// Chaque module est une « unité » (bandeau coloré) suivie de ses leçons posées
-// en zigzag sur un sentier. Rien n'est verrouillé (accès libre) : les états
-// sont purement visuels — fait / en cours / à venir. Kapi marque l'étape
-// conseillée.
+// Parcours « Pas à pas » — fidèle à la maquette Kapi :
+// bannière du module en cours, leçon courante mise en avant (gros nœud +
+// Kapi + barre de progression), leçons faites cochées, modules suivants en
+// style « à débloquer » (pointillés). Accès libre conservé : tout reste
+// cliquable, le verrouillage est seulement visuel.
+function Lock() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="5" y="10" width="14" height="10" rx="2.5" fill="var(--text-muted)" />
+      <path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="var(--text-muted)" strokeWidth="2.4" />
+    </svg>
+  )
+}
 
-const OFFSETS = [50, 68, 78, 68, 50, 32, 22, 32] // position horizontale en %
-const PAD = 44
-const DY = 82
-
-export default function PathView({ profile, completedSubs, onOpenSub }) {
-  const nextSub = getNextSousModule(profile, completedSubs)?.sousModule?.id ?? null
+export default function PathView({ completedSubs, onOpenSub }) {
+  // Module « en cours » = premier module non entièrement terminé.
+  const currentModuleId =
+    MODULES.find((m) => getModuleProgress(m.id, completedSubs).done < m.sousModules.length)?.id ??
+    MODULES[MODULES.length - 1].id
 
   return (
-    <div className="path-view">
+    <div className="path2">
+      <p className="path2-intro">De ton premier budget à ta retraite — les 9 modules dans l’ordre.</p>
+
       {MODULES.map((module) => {
         const { done, total } = getModuleProgress(module.id, completedSubs)
-        const subs = module.sousModules
-        const n = subs.length
-        const H = PAD * 2 + (n - 1) * DY
-        const x = (i) => OFFSETS[i % OFFSETS.length]
-        const y = (i) => PAD + i * DY
+        const isDoneModule = done === total
+        const isCurrent = module.id === currentModuleId
+        const isUpcoming = module.id > currentModuleId
 
-        // Sentier de fond (tous les nœuds) + sentier « fait » (jusqu'à done).
-        const seg = (a, b) =>
-          `C ${x(a)} ${y(a) + DY / 2} ${x(b)} ${y(b) - DY / 2} ${x(b)} ${y(b)}`
-        let bg = `M ${x(0)} ${y(0)}`
-        for (let i = 1; i < n; i++) bg += ' ' + seg(i - 1, i)
-        let fg = ''
-        if (done >= 1) {
-          fg = `M ${x(0)} ${y(0)}`
-          for (let i = 1; i <= Math.min(done, n - 1); i++) fg += ' ' + seg(i - 1, i)
+        // Module terminé : bannière compacte cochée.
+        if (isDoneModule && !isCurrent) {
+          return (
+            <button
+              key={module.id}
+              className="unit2-banner done"
+              onClick={() => onOpenSub(module.sousModules[0].id)}
+            >
+              <span className="unit2-node done"><span className="unit2-check">✓</span></span>
+              <span className="unit2-banner-text">
+                <b>Module {module.id} · {module.titre}</b>
+                <small>Terminé — revoir</small>
+              </span>
+            </button>
+          )
         }
 
+        // Module à venir : rangée « à débloquer » (cliquable quand même).
+        if (isUpcoming) {
+          return (
+            <div key={module.id} className="path2-locked-wrap">
+              <div className="path2-connector" />
+              <button className="unit2-locked" onClick={() => onOpenSub(module.sousModules[0].id)}>
+                <span className="unit2-node locked"><Lock /></span>
+                <span className="unit2-banner-text">
+                  <b>{module.titre}</b>
+                  <small>Module {module.id} · à débloquer</small>
+                </span>
+              </button>
+            </div>
+          )
+        }
+
+        // Module en cours : bannière + liste des leçons.
+        const nextIdx = module.sousModules.findIndex((s) => !completedSubs.includes(s.id))
         return (
-          <section key={module.id} className="unit" aria-label={`Module ${module.id} : ${module.titre}`}>
-            <div className={`unit-head ${done === total ? 'done' : ''}`}>
-              <span className="unit-emoji" aria-hidden="true">{module.emoji}</span>
-              <div className="unit-info">
-                <span className="unit-kicker">Module {module.id}</span>
-                <span className="unit-title">{module.titre}</span>
-              </div>
-              <span className="unit-count">{done === total ? '✓' : `${done}/${total}`}</span>
-            </div>
-
-            <div className="path" style={{ height: `${H}px` }}>
-              <svg
-                className="path-trail"
-                viewBox={`0 0 100 ${H}`}
-                preserveAspectRatio="none"
-                aria-hidden="true"
-              >
-                <path d={bg} className="trail-bg" vectorEffect="non-scaling-stroke" />
-                {fg && <path d={fg} className="trail-fg" vectorEffect="non-scaling-stroke" />}
-              </svg>
-
-              {subs.map((sub, i) => {
-                const isDone = completedSubs.includes(sub.id)
-                const isCurrent = sub.id === nextSub
-                const state = isDone ? 'done' : isCurrent ? 'current' : 'todo'
-                const onRight = x(i) >= 50
-                return (
-                  <div key={sub.id}>
-                    <button
-                      className={`path-node ${state}`}
-                      style={{ left: `${x(i)}%`, top: `${y(i)}px` }}
-                      onClick={() => onOpenSub(sub.id)}
-                      aria-label={`Leçon ${sub.id} : ${sub.titre}${isDone ? ' (faite)' : isCurrent ? ' (à faire)' : ''}`}
-                    >
-                      {isDone ? '✓' : i + 1}
-                    </button>
-                    {isCurrent && (
-                      <div
-                        className="path-here"
-                        style={{ left: `${x(i)}%`, top: `${y(i) - 46}px` }}
-                        aria-hidden="true"
-                      >
-                        <KapiMascot size={38} bob />
-                      </div>
-                    )}
-                    <span
-                      className={`path-label ${onRight ? 'left' : 'right'} ${state}`}
-                      style={{ top: `${y(i)}px`, [onRight ? 'right' : 'left']: 'calc(50% + 42px)' }}
-                    >
-                      {sub.titre}
+          <section key={module.id} className="unit2">
+            <div className="unit2-chip">MODULE {module.id} · {module.titre.toUpperCase()} — EN COURS</div>
+            {module.sousModules.map((sub, i) => {
+              const subDone = completedSubs.includes(sub.id)
+              const isNext = i === nextIdx
+              return (
+                <div key={sub.id}>
+                  {i > 0 && <div className={`path2-connector ${i % 2 ? 'off1' : 'off2'}`} />}
+                  <button
+                    className={`lesson-row ${subDone ? 'done' : isNext ? 'current' : 'todo'}`}
+                    onClick={() => onOpenSub(sub.id)}
+                  >
+                    <span className={`lesson-node ${subDone ? 'done' : isNext ? 'current' : 'todo'}`}>
+                      {isNext ? (
+                        <KapiMascot size={34} />
+                      ) : subDone ? (
+                        <span className="lesson-check">✓</span>
+                      ) : (
+                        <span className="lesson-num">{i + 1}</span>
+                      )}
                     </span>
-                  </div>
-                )
-              })}
-            </div>
+                    <span className="lesson-card">
+                      <span className="lesson-card-title">{sub.titre}</span>
+                      <span className="lesson-card-sub">
+                        Leçon {i + 1} sur {total}
+                        {subDone ? ' · terminée' : isNext ? ' · à faire' : ''}
+                      </span>
+                      {isNext && (
+                        <span className="lesson-bar">
+                          <span className="lesson-bar-fill" style={{ width: `${(done / total) * 100}%` }} />
+                        </span>
+                      )}
+                    </span>
+                  </button>
+                </div>
+              )
+            })}
           </section>
         )
       })}

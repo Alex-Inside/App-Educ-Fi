@@ -5,7 +5,9 @@
 
 import { MODULE1_LESSONS } from './module1.js'
 
-const RAW = { ...MODULE1_LESSONS }
+// 1.5 (aides) retiré du parcours Pas à pas — on ne l'expose plus comme leçon.
+const { '1.5': _removed, ...MODULE1 } = MODULE1_LESSONS
+const RAW = { ...MODULE1 }
 
 function adaptQuiz(questions) {
   return questions.map((q) => ({

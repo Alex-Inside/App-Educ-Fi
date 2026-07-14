@@ -66,7 +66,6 @@ export default function Dashboard({
           >
             {themeIcon}
           </button>
-          <span className="dash-profile">{profile.label}</span>
         </div>
       </div>
 
@@ -200,7 +199,7 @@ export default function Dashboard({
           }}
         />
         <button className="btn btn-ghost" onClick={onRestart}>
-          Refaire le questionnaire
+          Tout réinitialiser
         </button>
         <p className="privacy-note">
           🔒 Tout reste sur ton appareil : pas de compte, pas de pub, rien à vendre.

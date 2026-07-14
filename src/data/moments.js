@@ -1,90 +1,95 @@
-// Les Moments de vie — la deuxième porte d'entrée dans le parcours.
-// Les gens ne cherchent pas « le crédit » un mardi au hasard : ils cherchent
-// au moment où la vie le leur demande. Chaque moment assemble un mini-parcours
-// transverse à partir des 38 leçons existantes (rien n'est dupliqué : mêmes
-// leçons, mêmes actions, même progression).
+// Étapes de vie — les 6 parcours transverses de la maquette Kapi.
+// Chaque étape est une séquence de leçons « piochées » dans les modules, avec
+// leur provenance. `subId` relie l'étape à une leçon existante du curriculum ;
+// `subId: null` = contenu dédié encore à rédiger (affiché « en préparation »).
+// Rien n'est dupliqué : ouvrir une leçon depuis une étape compte partout.
 
 export const MOMENTS = [
   {
-    id: 'premier-salaire',
-    emoji: '💼',
-    titre: 'Premier salaire',
-    accroche: 'Ton premier virement mérite un plan — pas juste une soirée pour fêter ça.',
-    pourquoi:
-      'Dans l’ordre : comprendre ce qui tombe sur le compte, le répartir, automatiser, réclamer ce qui t’est dû, et poser le premier matelas.',
-    subIds: ['1.1', '1.2', '1.4', '1.5', '4.1', '2.1'],
+    id: 'paie',
+    emoji: '💶',
+    titre: 'Gérer ma première paie',
+    sub: '3 leçons · 20 min',
+    desc: 'Tu viens de recevoir ta première fiche de paie ? Voici l’essentiel pour la comprendre et bien démarrer.',
+    steps: [
+      { t: 'Décoder ta fiche de paie', from: 'Module 1 · Budget', subId: '1.1' },
+      { t: 'La règle du 50/30/20', from: 'Module 1 · Budget', subId: '1.2' },
+      { t: 'Ouvrir ton épargne de précaution', from: 'Module 2 · Épargner', subId: '2.1' },
+    ],
   },
   {
-    id: 'appart',
-    emoji: '🔑',
-    titre: 'Je prends mon appart',
-    accroche: 'Dépôt de garantie, assurance obligatoire, APL : tout ce qui se joue avant la remise des clés.',
-    pourquoi:
-      'Le budget d’abord (le loyer décide de tout), puis l’assurance exigée à la signature, les aides au logement, le financement du dépôt, et le découvert à éviter pendant la transition.',
-    subIds: ['1.2', '4.2', '1.5', '2.4', '1.3'],
-  },
-  {
-    id: 'voiture',
-    emoji: '🚗',
-    titre: 'Première voiture',
-    accroche: 'Entre le crédit auto, la surprime jeune conducteur et l’entretien, le prix affiché n’est que le début.',
-    pourquoi:
-      'Épargner le maximum avant, comprendre le TAEG si crédit il y a, choisir le bon type de financement, et anticiper l’assurance qui peut doubler la facture.',
-    subIds: ['2.4', '3.1', '3.2', '4.3'],
-  },
-  {
-    id: 'etudiant',
-    emoji: '🎓',
-    titre: 'Étudiant / alternant',
-    accroche: 'Petit budget ne veut pas dire pas de plan — surtout quand des aides t’attendent.',
-    pourquoi:
-      'Les aides non réclamées d’abord (c’est de l’argent immédiat), un budget qui tient avec peu, le découvert sous contrôle, le bon livret, et l’armure anti-finfluenceurs.',
-    subIds: ['1.5', '1.2', '1.3', '2.2', '8.2'],
-  },
-  {
-    id: 'freelance',
-    emoji: '🚀',
-    titre: 'Je me lance en freelance',
-    accroche: 'Revenus irréguliers, protection à construire soi-même : l’indépendance se prépare.',
-    pourquoi:
-      'Comprendre ce qu’il reste vraiment (cotisations), un matelas plus épais que les salariés, piloter serré, la mutuelle à choisir seul, et la retraite qui ne se remplit plus toute seule.',
-    subIds: ['1.1', '2.1', '1.4', '4.1', '7.1'],
-  },
-  {
-    id: 'a-deux',
+    id: 'immo',
     emoji: '🏡',
-    titre: 'On s’installe à deux',
-    accroche: 'Compte commun ou pas, qui paie quoi, et ce projet d’achat qui pointe : l’argent à deux, ça se parle.',
-    pourquoi:
-      'Un budget commun clair, l’assurance habitation à deux noms, les projets communs chiffrés, et — si l’achat approche — la capacité d’emprunt.',
-    subIds: ['1.2', '4.2', '2.4', '7.2'],
+    titre: 'Acheter mon premier logement',
+    sub: '9 étapes · de A à Z',
+    desc: 'Le parcours complet, de la recherche du bien jusqu’à la signature chez le notaire : frais, intermédiaires, impératifs — rien n’est laissé de côté.',
+    steps: [
+      { t: 'Constituer ton apport', from: 'Module 2 · Épargner', subId: '2.4' },
+      { t: 'Combien peux-tu emprunter ? Le taux d’endettement', from: 'Module 7 · Se projeter', subId: '7.2' },
+      { t: 'Trouver le bien : visites, agences, points de vigilance', from: 'Parcours immobilier', subId: null },
+      { t: 'L’offre d’achat et le compromis de vente', from: 'Parcours immobilier', subId: null },
+      { t: 'Comprendre le TAEG et comparer les prêts', from: 'Module 3 · Crédit', subId: '3.1' },
+      { t: 'L’assurance emprunteur (et comment la négocier)', from: 'Module 3 · Crédit', subId: '3.4' },
+      { t: 'Courtier, notaire, agent : qui fait quoi, qui paie quoi', from: 'Parcours immobilier', subId: null },
+      { t: 'Frais de notaire, garantie, frais cachés', from: 'Parcours immobilier', subId: null },
+      { t: 'La signature chez le notaire, étape par étape', from: 'Parcours immobilier', subId: null },
+    ],
   },
   {
-    id: 'epargne-dort',
+    id: 'invest',
     emoji: '📈',
-    titre: 'J’ai de l’épargne qui dort',
-    accroche: 'Le Livret A est plein et l’inflation grignote : il est temps de comprendre la suite.',
-    pourquoi:
-      'Pourquoi l’argent qui dort perd de la valeur, la boule de neige, la diversification, les bonnes enveloppes fiscales, la méthode — et la stratégie d’ensemble.',
-    subIds: ['2.3', '5.1', '5.2', '5.3', '5.4', '7.4'],
+    titre: 'Réaliser mes premiers investissements',
+    sub: '6 leçons · 45 min',
+    desc: 'D’abord le matelas de sécurité, ensuite l’investissement — sans te faire piéger.',
+    steps: [
+      { t: 'Ton épargne de précaution : le prérequis', from: 'Module 2 · Épargner', subId: '2.1' },
+      { t: 'L’inflation, ennemie de ton livret', from: 'Module 5 · Investir', subId: '5.1' },
+      { t: 'Actions, indices et ETF', from: 'Module 5 · Investir', subId: '5.2' },
+      { t: 'Ouvrir un PEA (et sa fiscalité)', from: 'Module 5 · Investir', subId: '5.3' },
+      { t: 'La méthode DCA', from: 'Module 5 · Investir', subId: '5.4' },
+      { t: 'Repérer les arnaques à l’investissement', from: 'Module 8 · Arnaques', subId: '8.1' },
+    ],
   },
   {
-    id: 'credit-propose',
-    emoji: '💳',
-    titre: 'On me propose un crédit',
-    accroche: 'Paiement en 4 fois, crédit conso, offre « exceptionnelle » : les réflexes avant de signer.',
-    pourquoi:
-      'Le TAEG pour comparer, les pièges du renouvelable et du fractionné, les types de crédit pour nommer ce qu’on te vend, et ton cerveau face au vendeur.',
-    subIds: ['3.1', '3.3', '3.2', '1.6'],
+    id: 'enfant',
+    emoji: '👶',
+    titre: 'Ma famille s’agrandit',
+    sub: '4 leçons · 30 min',
+    desc: 'Un enfant arrive : budget, aides, épargne pour lui et protection de la famille.',
+    steps: [
+      { t: 'Refaire ton budget familial', from: 'Module 1 · Budget', subId: '1.2' },
+      { t: 'Les aides famille (CAF, PAJE)', from: 'Parcours famille', subId: null },
+      { t: 'Épargner pour ton enfant', from: 'Module 2 · Épargner', subId: '2.4' },
+      { t: 'Assurance-vie & clause bénéficiaire', from: 'Module 7 · Se projeter', subId: '7.3' },
+    ],
   },
   {
-    id: 'arnaque',
-    emoji: '🚨',
-    titre: 'Je crois que c’est une arnaque',
-    accroche: 'Un placement trop beau, un conseiller pressant, un SMS bizarre ? Vérifie avant, pas après.',
-    pourquoi:
-      'Les 5 signaux d’alerte tout de suite, le crible pour les promesses en ligne, la sécurisation de tes comptes, et quoi faire si c’est déjà trop tard.',
-    subIds: ['8.1', '8.2', '8.3', '8.4'],
+    id: 'retraite',
+    emoji: '🌴',
+    titre: 'Préparer ma retraite',
+    sub: '5 leçons · 40 min',
+    desc: 'Plus tu commences tôt, moins ça coûte. PER, assurance-vie, intérêts composés : ton plan.',
+    steps: [
+      { t: 'Comprendre ta future pension', from: 'Module 7 · Se projeter', subId: '7.1' },
+      { t: 'PEE & PERCOL : l’argent gratuit', from: 'Parcours retraite', subId: null },
+      { t: 'L’assurance-vie long terme', from: 'Module 7 · Se projeter', subId: '7.3' },
+      { t: 'Les intérêts composés', from: 'Module 2 · Épargner', subId: '2.3' },
+      { t: 'Ta stratégie par décennie', from: 'Module 7 · Se projeter', subId: '7.4' },
+    ],
+  },
+  {
+    id: 'succession',
+    emoji: '🕊️',
+    titre: 'Anticiper ma succession',
+    sub: '5 leçons · 35 min',
+    desc: 'Transmettre sans y laisser la moitié : donations, assurance-vie, testament et droits de succession expliqués simplement.',
+    steps: [
+      { t: 'Qui hérite de quoi ? Les règles de base', from: 'Parcours succession', subId: null },
+      { t: 'Les droits de succession et les abattements', from: 'Parcours succession', subId: null },
+      { t: 'Donner de ton vivant : donations & présents d’usage', from: 'Parcours succession', subId: null },
+      { t: 'L’assurance-vie, l’outil roi de la transmission', from: 'Module 7 · Se projeter', subId: '7.3' },
+      { t: 'Testament & clause bénéficiaire : mettre tout au clair', from: 'Parcours succession', subId: null },
+    ],
   },
 ]
 
@@ -92,7 +97,9 @@ export function getMoment(momentId) {
   return MOMENTS.find((m) => m.id === momentId)
 }
 
+// Progression = leçons reliées et complétées / leçons reliées disponibles.
 export function getMomentProgress(moment, completedSubs) {
-  const done = moment.subIds.filter((s) => completedSubs.includes(s)).length
-  return { done, total: moment.subIds.length }
+  const linked = moment.steps.filter((s) => s.subId)
+  const done = linked.filter((s) => completedSubs.includes(s.subId)).length
+  return { done, total: linked.length }
 }

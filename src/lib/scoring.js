@@ -31,6 +31,17 @@ const PROFILS = {
 const SEUIL_INTERMEDIAIRE = 4
 const SEUIL_AVANCE = 8
 
+// Profil par défaut (le test de connaissance initial a été retiré) : accès
+// libre, on démarre au module 1, ton clair et concret.
+export const DEFAULT_PROFILE = {
+  profil: 'libre',
+  label: '',
+  niveau: '',
+  premier_module: 1,
+  ton_adapte: 'clair et concret',
+  objectif: null,
+}
+
 export function computeScore(answers) {
   return QUESTIONS.reduce((total, question) => {
     if (question.scored === false) return total
