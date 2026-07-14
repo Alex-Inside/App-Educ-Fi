@@ -4,9 +4,11 @@
 // {q,opts,good,explain} au format attendu par QuizStep.
 
 import { MODULE1_LESSONS } from './module1.js'
+import { MODULE2_LESSONS } from './module2.js'
+import { MODULE3_LESSONS } from './module3.js'
 
-// Module 1 entièrement au format long : 1.1 à 1.5.
-const RAW = { ...MODULE1_LESSONS }
+// Modules au format long. On étend module par module.
+const RAW = { ...MODULE1_LESSONS, ...MODULE2_LESSONS, ...MODULE3_LESSONS }
 
 function adaptQuiz(questions) {
   return questions.map((q) => ({

@@ -64,18 +64,19 @@ export const ACTIONS = {
     lienLabel: 'service-public.fr — fiche LEP',
   },
   '2.3': {
-    titre: 'Lance la boule de neige avec TES chiffres',
-    detail: 'Prends ce que tu pourrais mettre de côté par mois, et regarde la courbe à 10, 20, 30 ans dans le simulateur. C’est ta courbe, pas un exemple.',
-    duree: '3 min',
-    type: 'outil',
-    outil: 'compound',
-  },
-  '2.4': {
     titre: 'Chiffre ton prochain projet',
     detail: 'Permis, ordi, dépôt de garantie, voyage : passe-le au simulateur « Mon projet » pour connaître l’effort mensuel réaliste.',
     duree: '3 min',
     type: 'outil',
     outil: 'goal',
+  },
+
+  '5.5': {
+    titre: 'Lance la boule de neige avec TES chiffres',
+    detail: 'Prends ce que tu pourrais mettre de côté par mois, et regarde la courbe à 10, 20, 30 ans dans le simulateur. C’est ta courbe, pas un exemple.',
+    duree: '3 min',
+    type: 'outil',
+    outil: 'compound',
   },
 
   // ---------- Module 3 · Comprendre le crédit ----------

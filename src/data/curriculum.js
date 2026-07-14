@@ -28,8 +28,7 @@ export const MODULES = [
     sousModules: [
       { id: '2.1', titre: 'L’épargne de précaution', resume: 'Pourquoi, combien, où la mettre' },
       { id: '2.2', titre: 'Les livrets réglementés', resume: 'Livret A, LDDS, LEP : plafonds, taux, zéro impôt' },
-      { id: '2.3', titre: 'Les intérêts composés', resume: 'L’effet boule de neige, pourquoi la durée bat le taux' },
-      { id: '2.4', titre: 'Épargner pour un projet', resume: 'Objectif daté, épargne programmée, le cas PEL' },
+      { id: '2.3', titre: 'Épargner pour un projet', resume: 'Objectif daté, épargne programmée, le cas PEL' },
     ],
   },
   {
@@ -69,6 +68,7 @@ export const MODULES = [
       { id: '5.2', titre: 'Actions, indices et ETF', resume: 'La diversification, les ETF comme panier tout-en-un' },
       { id: '5.3', titre: 'PEA, CTO et fiscalité', resume: 'Les enveloppes, les 5 ans du PEA, la flat tax' },
       { id: '5.4', titre: 'La méthode qui marche', resume: 'DCA, long terme, les erreurs classiques de débutant' },
+      { id: '5.5', titre: 'Les intérêts composés', resume: 'L’effet boule de neige, pourquoi la durée bat le taux' },
     ],
   },
   {

@@ -33,13 +33,13 @@ const TOPICS = [
   },
   {
     keywords: ['pel', 'plan epargne logement'],
-    sub: '2.4',
+    sub: '2.3',
     reply:
       "Le PEL sert un objectif précis : préparer un achat immobilier, avec un taux garanti à l'ouverture. En contrepartie l'argent est peu disponible, et le casser avant 2 ans fait perdre ses avantages. À n'ouvrir que si le projet est réel — sinon Livret A pour la précaution, et investissement long terme pour le reste.",
   },
   {
     keywords: ['interets composes', 'compose', 'boule de neige'],
-    sub: '2.3',
+    sub: '5.5',
     reply:
       "Les intérêts composés, c'est l'effet boule de neige : les intérêts gagnés produisent eux-mêmes des intérêts. 100 € à 10 % → 110 €, puis les 10 % se calculent sur 110 €… Le facteur le plus puissant n'est pas le taux, c'est la durée. Va jouer avec le simulateur 🧰 « Boule de neige » : voir SA courbe à 30 ans, ça change une vie.",
   },

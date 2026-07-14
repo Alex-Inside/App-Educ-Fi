@@ -24,7 +24,7 @@ export const MOMENTS = [
     sub: '9 étapes · de A à Z',
     desc: 'Le parcours complet, de la recherche du bien jusqu’à la signature chez le notaire : frais, intermédiaires, impératifs — rien n’est laissé de côté.',
     steps: [
-      { t: 'Constituer ton apport', from: 'Module 2 · Épargner', subId: '2.4' },
+      { t: 'Constituer ton apport', from: 'Module 2 · Épargner', subId: '2.3' },
       { t: 'Combien peux-tu emprunter ? Le taux d’endettement', from: 'Module 7 · Se projeter', subId: '7.2' },
       { t: 'Trouver le bien : visites, agences, points de vigilance', from: 'Parcours immobilier', subId: null },
       { t: 'L’offre d’achat et le compromis de vente', from: 'Parcours immobilier', subId: null },
@@ -59,7 +59,7 @@ export const MOMENTS = [
     steps: [
       { t: 'Refaire ton budget familial', from: 'Module 1 · Budget', subId: '1.2' },
       { t: 'Les aides famille (CAF, PAJE)', from: 'Parcours famille', subId: null },
-      { t: 'Épargner pour ton enfant', from: 'Module 2 · Épargner', subId: '2.4' },
+      { t: 'Épargner pour ton enfant', from: 'Module 2 · Épargner', subId: '2.3' },
       { t: 'Assurance-vie & clause bénéficiaire', from: 'Module 7 · Se projeter', subId: '7.3' },
     ],
   },
@@ -73,7 +73,7 @@ export const MOMENTS = [
       { t: 'Comprendre ta future pension', from: 'Module 7 · Se projeter', subId: '7.1' },
       { t: 'PEE & PERCOL : l’argent gratuit', from: 'Parcours retraite', subId: null },
       { t: 'L’assurance-vie long terme', from: 'Module 7 · Se projeter', subId: '7.3' },
-      { t: 'Les intérêts composés', from: 'Module 2 · Épargner', subId: '2.3' },
+      { t: 'Les intérêts composés', from: 'Module 5 · Investir', subId: '5.5' },
       { t: 'Ta stratégie par décennie', from: 'Module 7 · Se projeter', subId: '7.4' },
     ],
   },

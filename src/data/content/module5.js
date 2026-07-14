@@ -178,4 +178,44 @@ export const CONTENT = {
       },
     ],
   },
+
+  "5.5": {
+    decouverte: [
+      "Les intérêts composés, c'est l'idée la plus puissante de toute la finance personnelle : tes intérêts produisent eux-mêmes des intérêts. Année 1, ton argent rapporte. Année 2, ton argent ET les intérêts de l'année 1 rapportent. Et ainsi de suite. Au début, c'est invisible. Sur la durée, c'est un effet boule de neige qui devient spectaculaire.",
+      "Un exemple : 100 € par mois placés à 5 % par an. Au bout de 10 ans, tu as versé 12 000 € et tu détiens environ 15 500 €. Au bout de 30 ans, tu as versé 36 000 €… et tu détiens environ 83 000 €. Les intérêts ont généré plus que tes propres versements. La machine travaille pendant que tu dors.",
+      "La grande leçon : la durée bat le taux. Commencer à 20 ans avec de petites sommes rapporte souvent plus que commencer à 35 ans avec de grosses. Pour estimer vite, utilise la règle des 72 : divise 72 par le taux annuel pour connaître le nombre d'années nécessaires pour doubler ton capital. À 6 %, ton argent double environ tous les 12 ans.",
+    ],
+    casConcret: [
+      "Jade et Maxime ont 22 ans. Jade commence tout de suite : 80 € par mois sur un placement à environ 5 % par an. Maxime se dit qu'il commencera « plus tard, quand il gagnera mieux » et démarre à 32 ans avec 160 € par mois, soit le double, sur le même placement.",
+      "À 62 ans, Jade a versé 38 400 € en 40 ans : son capital atteint environ 122 000 €. Maxime a versé 57 600 € en 30 ans, presque 20 000 € de plus que Jade… mais son capital plafonne autour de 133 000 €. Les dix années d'avance de Jade ont presque compensé un effort deux fois moindre. Chaque année de jeunesse vaut de l'or composé.",
+    ],
+    synthese: [
+      "Intérêts composés : tes intérêts produisent eux-mêmes des intérêts, effet boule de neige.",
+      "Au début c'est invisible ; sur 20-40 ans, c'est spectaculaire.",
+      "La durée bat le taux : commencer tôt avec peu vaut mieux qu'attendre.",
+      "Règle des 72 : 72 divisé par le taux donne les années pour doubler.",
+      "La régularité (virement mensuel automatique) est ton meilleur allié.",
+    ],
+    quiz: [
+      {
+        question: "Selon la règle des 72, en combien de temps ton argent double-t-il environ à 6 % par an ?",
+        options: ["Environ 12 ans", "Environ 6 ans", "Environ 24 ans", "Environ 72 ans"],
+        correct: 0,
+        explication: "La règle des 72 consiste à diviser 72 par le taux annuel : 72 divisé par 6 égale 12 ans pour doubler le capital. C'est une approximation très pratique pour comparer des placements de tête, sans calculatrice.",
+        explicationAlt: "Retiens le réflexe : 72 divisé par le taux. À 6 %, ça donne 12 ans ; à 3 %, 24 ans ; à 9 %, 8 ans. Comme une recette mentale, ce raccourci te permet d'estimer en deux secondes la vitesse de la boule de neige selon le taux.",
+      },
+      {
+        question: "Pourquoi dit-on que « la durée bat le taux » avec les intérêts composés ?",
+        options: [
+          "Parce que les taux baissent toujours avec le temps",
+          "Parce que les banques récompensent la fidélité",
+          "Parce que chaque année supplémentaire fait travailler les intérêts des intérêts : commencer tôt change tout",
+          "Parce qu'après 10 ans l'épargne devient bloquée",
+        ],
+        correct: 2,
+        explication: "Plus l'argent reste placé longtemps, plus les intérêts générés produisent eux-mêmes des intérêts, et la croissance s'accélère sur les dernières années. C'est pourquoi commencer à 20 ans avec de petites sommes bat souvent un démarrage tardif avec de grosses sommes.",
+        explicationAlt: "Imagine une boule de neige qui descend une pente : ce qui compte le plus, ce n'est pas sa taille de départ, c'est la longueur de la pente. Une petite boule lancée tout en haut (épargner jeune) finit plus grosse qu'une grosse boule lancée à mi-pente (commencer tard).",
+      },
+    ],
+  },
 }
