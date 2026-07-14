@@ -7,6 +7,7 @@ import {
   globalMastery,
 } from '../lib/adaptive.js'
 import { getSousModule } from '../data/curriculum.js'
+import { MOMENTS, getMomentProgress } from '../data/moments.js'
 import ProgressMap from './ProgressMap.jsx'
 
 const KIND_LABEL = {
@@ -32,6 +33,7 @@ export default function Dashboard({
   onOpenTools,
   onOpenGlossaire,
   onOpenActions,
+  onOpenMoment,
   onExport,
   onImport,
   onRestart,
@@ -111,6 +113,22 @@ export default function Dashboard({
           })}
         </div>
       )}
+
+      <div className="map-title">C'est le moment ? Entre par ce que tu vis</div>
+      <div className="moments-strip" role="list">
+        {MOMENTS.map((m) => {
+          const { done, total } = getMomentProgress(m, completedSubs)
+          return (
+            <button key={m.id} role="listitem" className="moment-chip" onClick={() => onOpenMoment(m.id)}>
+              <span className="moment-chip-emoji" aria-hidden="true">{m.emoji}</span>
+              <span className="moment-chip-title">{m.titre}</span>
+              <span className={`moment-chip-count ${done === total ? 'complete' : ''}`}>
+                {done === total ? '✓' : `${done}/${total}`}
+              </span>
+            </button>
+          )
+        })}
+      </div>
 
       <div className="nav-cards nav-cards-3">
         <button className="nav-card" onClick={onOpenActions}>

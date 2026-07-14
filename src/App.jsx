@@ -7,6 +7,7 @@ import CoachDrawer from './components/CoachDrawer.jsx'
 import Tools from './components/Tools.jsx'
 import Glossaire from './components/Glossaire.jsx'
 import ActionPlan from './components/ActionPlan.jsx'
+import MomentScreen from './components/MomentScreen.jsx'
 import { loadState, saveState, clearState, exportState, parseImportedState } from './lib/storage.js'
 import { recordQuizResult, touchActivity } from './lib/adaptive.js'
 import { ACTIONS } from './data/actions.js'
@@ -69,7 +70,12 @@ export default function App() {
       setQuizStats((s) => recordQuizResult(s, subId, result))
     }
     setActiveDays((d) => touchActivity(d))
-    setView({ moduleId: Number(subId.split('.')[0]) })
+    // Retour au contexte d'origine : le Moment de vie si on en vient, sinon le module.
+    setView(
+      view?.fromMoment
+        ? { page: 'moment', momentId: view.fromMoment }
+        : { moduleId: Number(subId.split('.')[0]) }
+    )
   }
 
   const openSub = (subId) => setView({ moduleId: Number(subId.split('.')[0]), subId })
@@ -107,6 +113,18 @@ export default function App() {
     screen = <Tools onBack={() => setView(null)} />
   } else if (view?.page === 'glossaire') {
     screen = <Glossaire onBack={() => setView(null)} onOpenSub={openSub} />
+  } else if (view?.page === 'moment') {
+    screen = (
+      <MomentScreen
+        momentId={view.momentId}
+        completedSubs={completedSubs}
+        actionsDone={actionsDone}
+        onOpenSub={(subId) =>
+          setView({ moduleId: Number(subId.split('.')[0]), subId, fromMoment: view.momentId })
+        }
+        onBack={() => setView(null)}
+      />
+    )
   } else if (view?.page === 'actions') {
     screen = (
       <ActionPlan
@@ -127,7 +145,13 @@ export default function App() {
         quizStats={quizStats}
         actionsDone={actionsDone}
         onActionDone={markActionDone}
-        onBack={() => setView({ moduleId: view.moduleId })}
+        onBack={() =>
+          setView(
+            view.fromMoment
+              ? { page: 'moment', momentId: view.fromMoment }
+              : { moduleId: view.moduleId }
+          )
+        }
         onComplete={completeSub}
       />
     )
@@ -156,6 +180,7 @@ export default function App() {
         onOpenTools={() => setView({ page: 'tools' })}
         onOpenGlossaire={() => setView({ page: 'glossaire' })}
         onOpenActions={() => setView({ page: 'actions' })}
+        onOpenMoment={(momentId) => setView({ page: 'moment', momentId })}
         onExport={handleExport}
         onImport={handleImport}
         onRestart={restart}

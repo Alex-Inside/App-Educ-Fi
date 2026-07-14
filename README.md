@@ -60,6 +60,16 @@ rien bloquer. Ensuite, chaque quiz nourrit le moteur :
 - **Série de jours** 🔥 : encouragement sans culpabilisation (regarder son
   tableau de bord ne casse pas la série).
 
+## Les Moments de vie (`src/data/moments.js`)
+
+Une deuxième porte d'entrée dans les mêmes 38 leçons : **par événement** plutôt
+que par thème. Neuf moments — Premier salaire, Je prends mon appart, Première
+voiture, Étudiant/alternant, Je me lance en freelance, On s'installe à deux,
+J'ai de l'épargne qui dort, On me propose un crédit, Je crois que c'est une
+arnaque — assemblent chacun un mini-parcours transverse de 4 à 6 leçons.
+Rien n'est dupliqué : mêmes leçons, mêmes actions, même progression ; terminer
+une leçon depuis un moment compte partout.
+
 ## Le Plan d'action (`src/data/actions.js`)
 
 Chaque leçon se conclut par **une recommandation de passage à l'action** : une
