@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { getSousModule } from '../data/curriculum.js'
 import { SUBMODULE_CONTENT } from '../data/content/index.js'
+import { getAction, DISCLAIMER } from '../data/actions.js'
 import { isModuleComplete } from '../lib/progression.js'
 import { isFastTrackEligible, masteryOf } from '../lib/adaptive.js'
 import QuizStep from './QuizStep.jsx'
@@ -17,6 +18,8 @@ export default function SubModuleScreen({
   profile,
   completedSubs,
   quizStats,
+  actionsDone = [],
+  onActionDone,
   onComplete,
   onBack,
 }) {
@@ -46,6 +49,8 @@ export default function SubModuleScreen({
     const finalFirstTry = firstTryCount
     const moduleDone = isModuleComplete(module.id, [...new Set([...completedSubs, subId])])
     const perfect = finalFirstTry === quiz.length
+    const action = getAction(subId)
+    const actionDone = actionsDone.includes(subId)
     return (
       <>
         <div className="result-header module-done">
@@ -64,14 +69,35 @@ export default function SubModuleScreen({
             Quiz : {finalFirstTry}/{quiz.length} du premier coup
             {perfect ? ' — sans faute 👏' : ''}
           </p>
-          {moduleDone ? (
-            <p>Tu as terminé tout le module {module.emoji} {module.titre}. Chapeau !</p>
-          ) : perfect ? (
-            <p>Ce sujet est solidement ancré.</p>
-          ) : (
-            <p>Le coach te reproposera une révision rapide dans quelques jours pour ancrer le sujet.</p>
-          )}
         </div>
+
+        {action && (
+          <div className="action-card">
+            <div className="action-head">
+              <span className="action-tag">🎯 Et maintenant, en vrai</span>
+              <span className="action-duree">{action.duree}</span>
+            </div>
+            <div className="action-titre">{action.titre}</div>
+            <p className="action-detail">{action.detail}</p>
+            {action.lien && (
+              <a className="action-link" href={action.lien} target="_blank" rel="noopener noreferrer">
+                {action.lienLabel} ↗
+              </a>
+            )}
+            {action.type === 'outil' && (
+              <span className="action-link">🧰 Dans l’app : Simulateurs (depuis l’accueil)</span>
+            )}
+            <button
+              className={`action-check ${actionDone ? 'is-done' : ''}`}
+              onClick={() => onActionDone?.(subId)}
+              disabled={actionDone}
+            >
+              {actionDone ? '✓ Fait — bien joué' : 'Je l’ai fait ✓'}
+            </button>
+            <p className="action-disclaimer">{DISCLAIMER}</p>
+          </div>
+        )}
+
         <div className="question-footer">
           <button
             className="btn btn-primary"
@@ -79,6 +105,9 @@ export default function SubModuleScreen({
           >
             Continuer →
           </button>
+          {action && !actionDone && (
+            <p className="action-later">Pas le moment ? Tu la retrouveras dans ton Plan d’action 🎯</p>
+          )}
         </div>
       </>
     )

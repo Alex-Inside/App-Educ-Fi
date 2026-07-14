@@ -14,6 +14,8 @@ const EMPTY = {
   quizStats: {},
   // activeDays = jours (AAAA-MM-JJ) avec au moins un sous-module travaillé
   activeDays: [],
+  // actionsDone = sous-modules dont l'action du Plan d'action est cochée
+  actionsDone: [],
   settings: { theme: 'auto' },
 }
 
@@ -24,6 +26,7 @@ function normalize(data) {
     coachHistory: Array.isArray(data.coachHistory) ? data.coachHistory : [],
     quizStats: data.quizStats && typeof data.quizStats === 'object' ? data.quizStats : {},
     activeDays: Array.isArray(data.activeDays) ? data.activeDays : [],
+    actionsDone: Array.isArray(data.actionsDone) ? data.actionsDone : [],
     settings: { ...EMPTY.settings, ...(data.settings ?? {}) },
   }
 }

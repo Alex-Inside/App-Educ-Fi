@@ -23,12 +23,15 @@ export default function Dashboard({
   completedSubs,
   quizStats,
   activeDays,
+  actionsDone,
+  actionsPending,
   theme,
   onCycleTheme,
   onOpenModule,
   onOpenSub,
   onOpenTools,
   onOpenGlossaire,
+  onOpenActions,
   onExport,
   onImport,
   onRestart,
@@ -109,11 +112,22 @@ export default function Dashboard({
         </div>
       )}
 
-      <div className="nav-cards">
+      <div className="nav-cards nav-cards-3">
+        <button className="nav-card" onClick={onOpenActions}>
+          <span className="nav-card-emoji">🎯</span>
+          <span className="nav-card-title">Plan d'action</span>
+          <span className="nav-card-desc">
+            {actionsPending > 0
+              ? `${actionsPending} démarche${actionsPending > 1 ? 's' : ''} à faire`
+              : actionsDone > 0
+                ? `${actionsDone} faite${actionsDone > 1 ? 's' : ''} ✓`
+                : 'Se débloque en apprenant'}
+          </span>
+        </button>
         <button className="nav-card" onClick={onOpenTools}>
           <span className="nav-card-emoji">🧰</span>
           <span className="nav-card-title">Simulateurs</span>
-          <span className="nav-card-desc">Budget, intérêts composés, projet</span>
+          <span className="nav-card-desc">Budget, intérêts, projet</span>
         </button>
         <button className="nav-card" onClick={onOpenGlossaire}>
           <span className="nav-card-emoji">📖</span>

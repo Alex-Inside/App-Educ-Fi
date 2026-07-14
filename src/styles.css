@@ -1294,3 +1294,152 @@ button.module-card {
   cursor: pointer;
   text-align: left;
 }
+
+/* ---------- Plan d'action ---------- */
+
+.nav-cards-3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media (max-width: 380px) {
+  .nav-cards-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.action-card {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.action-card.muted {
+  opacity: 0.72;
+  border-left-color: var(--success);
+}
+
+.action-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.action-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.action-origin {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  text-align: left;
+}
+
+.action-origin:hover {
+  color: var(--accent);
+}
+
+.action-duree {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.action-titre {
+  font-weight: 700;
+  font-size: 0.98rem;
+  line-height: 1.35;
+}
+
+.action-detail {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.action-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--accent);
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+  align-self: flex-start;
+}
+
+.action-link:hover {
+  text-decoration: underline;
+}
+
+.action-check {
+  background: var(--success-soft);
+  border: 2px solid var(--success);
+  border-radius: 12px;
+  color: var(--success);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 10px 14px;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.action-check.is-done {
+  cursor: default;
+  border-style: dashed;
+}
+
+.action-disclaimer {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+
+.plan-disclaimer {
+  border-top: none;
+  text-align: center;
+  padding: 18px 8px 0;
+}
+
+.action-later {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.action-list .action-card {
+  margin-top: 10px;
+}

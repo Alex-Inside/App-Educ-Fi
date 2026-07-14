@@ -60,6 +60,22 @@ rien bloquer. Ensuite, chaque quiz nourrit le moteur :
 - **Série de jours** 🔥 : encouragement sans culpabilisation (regarder son
   tableau de bord ne casse pas la série).
 
+## Le Plan d'action (`src/data/actions.js`)
+
+Chaque leçon se conclut par **une recommandation de passage à l'action** : une
+démarche réelle, gratuite et vérifiable (vérifier son autorisation de découvert,
+simuler ses aides sur mesdroitssociaux.gouv.fr, activer la double
+authentification, créer son compte info-retraite.fr…). L'utilisateur coche
+« Je l'ai fait ✓ » ; la vue **Plan d'action** rassemble les démarches
+débloquées (à faire / faites).
+
+**Ligne rouge de conformité** (documentée en tête de `actions.js`) : FinPath
+est un outil éducatif — les actions sont des démarches de vérification,
+d'information, de sécurité ou de réclamation de droits. Jamais de « souscris »,
+« ouvre », « investis », jamais de produit ni d'établissement recommandé.
+Un rappel est affiché sur chaque carte d'action. Les liens pointent uniquement
+vers des sites publics ou d'autorités (gouv.fr, AMF, ORIAS).
+
 ## Les outils (`src/lib/simulators.js`)
 
 Trois simulateurs, calculés dans le navigateur, alignés sur les modules :

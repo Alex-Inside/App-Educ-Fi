@@ -6,8 +6,10 @@ import SubModuleScreen from './components/SubModuleScreen.jsx'
 import CoachDrawer from './components/CoachDrawer.jsx'
 import Tools from './components/Tools.jsx'
 import Glossaire from './components/Glossaire.jsx'
+import ActionPlan from './components/ActionPlan.jsx'
 import { loadState, saveState, clearState, exportState, parseImportedState } from './lib/storage.js'
 import { recordQuizResult, touchActivity } from './lib/adaptive.js'
+import { ACTIONS } from './data/actions.js'
 
 const THEMES = ['auto', 'light', 'dark']
 
@@ -20,6 +22,7 @@ export default function App() {
   const [coachHistory, setCoachHistory] = useState(state?.coachHistory ?? [])
   const [quizStats, setQuizStats] = useState(state?.quizStats ?? {})
   const [activeDays, setActiveDays] = useState(state?.activeDays ?? [])
+  const [actionsDone, setActionsDone] = useState(state?.actionsDone ?? [])
   const [settings, setSettings] = useState(state?.settings ?? { theme: 'auto' })
 
   // view : null = dashboard · { moduleId } = module · { moduleId, subId } =
@@ -27,8 +30,8 @@ export default function App() {
   const [view, setView] = useState(null)
 
   useEffect(() => {
-    saveState({ profile, completedSubs, coachHistory, quizStats, activeDays, settings })
-  }, [profile, completedSubs, coachHistory, quizStats, activeDays, settings])
+    saveState({ profile, completedSubs, coachHistory, quizStats, activeDays, actionsDone, settings })
+  }, [profile, completedSubs, coachHistory, quizStats, activeDays, actionsDone, settings])
 
   // Thème : auto suit le système, sinon on force via l'attribut data-theme.
   useEffect(() => {
@@ -50,7 +53,12 @@ export default function App() {
     setCoachHistory([])
     setQuizStats({})
     setActiveDays([])
+    setActionsDone([])
     setView(null)
+  }
+
+  const markActionDone = (subId) => {
+    setActionsDone((a) => (a.includes(subId) ? a : [...a, subId]))
   }
 
   const completeSub = (subId, result) => {
@@ -67,7 +75,7 @@ export default function App() {
   const openSub = (subId) => setView({ moduleId: Number(subId.split('.')[0]), subId })
 
   const handleExport = () =>
-    exportState({ profile, completedSubs, coachHistory, quizStats, activeDays, settings })
+    exportState({ profile, completedSubs, coachHistory, quizStats, activeDays, actionsDone, settings })
 
   const handleImport = async (file) => {
     const imported = parseImportedState(await file.text())
@@ -80,6 +88,7 @@ export default function App() {
     setCoachHistory(imported.coachHistory)
     setQuizStats(imported.quizStats)
     setActiveDays(imported.activeDays)
+    setActionsDone(imported.actionsDone)
     setSettings(imported.settings)
     setView(null)
   }
@@ -98,6 +107,17 @@ export default function App() {
     screen = <Tools onBack={() => setView(null)} />
   } else if (view?.page === 'glossaire') {
     screen = <Glossaire onBack={() => setView(null)} onOpenSub={openSub} />
+  } else if (view?.page === 'actions') {
+    screen = (
+      <ActionPlan
+        completedSubs={completedSubs}
+        actionsDone={actionsDone}
+        onActionDone={markActionDone}
+        onOpenSub={openSub}
+        onOpenTools={() => setView({ page: 'tools' })}
+        onBack={() => setView(null)}
+      />
+    )
   } else if (view?.subId) {
     screen = (
       <SubModuleScreen
@@ -105,6 +125,8 @@ export default function App() {
         profile={profile}
         completedSubs={completedSubs}
         quizStats={quizStats}
+        actionsDone={actionsDone}
+        onActionDone={markActionDone}
         onBack={() => setView({ moduleId: view.moduleId })}
         onComplete={completeSub}
       />
@@ -125,12 +147,15 @@ export default function App() {
         completedSubs={completedSubs}
         quizStats={quizStats}
         activeDays={activeDays}
+        actionsDone={actionsDone.length}
+        actionsPending={completedSubs.filter((s) => ACTIONS[s] && !actionsDone.includes(s)).length}
         theme={settings.theme}
         onCycleTheme={cycleTheme}
         onOpenModule={(moduleId) => setView({ moduleId })}
         onOpenSub={openSub}
         onOpenTools={() => setView({ page: 'tools' })}
         onOpenGlossaire={() => setView({ page: 'glossaire' })}
+        onOpenActions={() => setView({ page: 'actions' })}
         onExport={handleExport}
         onImport={handleImport}
         onRestart={restart}
