@@ -1,9 +1,11 @@
 import { useState } from 'react'
 
 // QCM avec feedback immédiat. En cas d'erreur répétée sur la même question,
-// on bascule sur l'explication alternative (reformulation différente) — le
-// comportement adaptatif de la spec, que l'appel Claude rendra dynamique.
-export default function QuizStep({ question, index, total, isLast, onCorrect }) {
+// on bascule sur l'explication alternative (reformulation différente).
+// v2 : chaque question remonte son résultat (bonne réponse du premier coup ?)
+// au moteur adaptatif via onDone — c'est lui qui nourrit la maîtrise et les
+// révisions espacées.
+export default function QuizStep({ question, index, total, isLast, onDone }) {
   const [selected, setSelected] = useState(null)
   const [attempts, setAttempts] = useState(0)
 
@@ -19,9 +21,10 @@ export default function QuizStep({ question, index, total, isLast, onCorrect }) 
   const retry = () => setSelected(null)
 
   const next = () => {
+    const firstTry = attempts === 0 && isCorrect
     setSelected(null)
     setAttempts(0)
-    onCorrect()
+    onDone({ firstTry })
   }
 
   return (
@@ -46,7 +49,7 @@ export default function QuizStep({ question, index, total, isLast, onCorrect }) 
         </div>
 
         {answered && (
-          <div className={`feedback ${isCorrect ? 'good' : 'bad'}`}>
+          <div className={`feedback ${isCorrect ? 'good' : 'bad'}`} role="status">
             <strong>{isCorrect ? '✓ Bien vu !' : '✗ Pas tout à fait…'}</strong>
             <p>
               {isCorrect || attempts < 2 ? question.explication : question.explicationAlt}
@@ -62,11 +65,11 @@ export default function QuizStep({ question, index, total, isLast, onCorrect }) 
         <div className="question-footer">
           {isCorrect ? (
             <button className="btn btn-primary" onClick={next}>
-              {isLast ? 'Terminer le module ✓' : 'Question suivante →'}
+              {isLast ? 'Terminer ✓' : 'Question suivante →'}
             </button>
           ) : attempts >= 2 ? (
             <button className="btn btn-primary" onClick={next}>
-              {isLast ? 'Terminer le module' : "J'ai compris, on continue →"}
+              {isLast ? 'Terminer' : "J'ai compris, on continue →"}
             </button>
           ) : (
             <button className="btn btn-primary" onClick={retry}>

@@ -1,9 +1,11 @@
 import { MODULES } from '../data/curriculum.js'
 import { getModuleProgress } from '../lib/progression.js'
+import { masteryOf } from '../lib/adaptive.js'
 
 // Vue des 9 modules — tous accessibles. Le profil ne verrouille rien :
 // il marque simplement le point de départ conseillé.
-export default function ProgressMap({ profile, completedSubs = [], onSelect }) {
+// v2 : affiche la maîtrise moyenne des modules complétés.
+export default function ProgressMap({ profile, completedSubs = [], quizStats = {}, onSelect }) {
   return (
     <div>
       <div className="map-title">Ton parcours — 9 modules en accès libre</div>
@@ -13,6 +15,13 @@ export default function ProgressMap({ profile, completedSubs = [], onSelect }) {
           const isComplete = done === total
           const isStarted = done > 0 && !isComplete
           const isRecommended = module.id === profile.premier_module
+
+          const masteries = module.sousModules
+            .map((s) => masteryOf(quizStats, s.id))
+            .filter((m) => m !== null)
+          const mastery = masteries.length
+            ? Math.round(masteries.reduce((a, b) => a + b, 0) / masteries.length)
+            : null
 
           let cardClass = 'active'
           if (isComplete) cardClass = 'done'
@@ -26,7 +35,7 @@ export default function ProgressMap({ profile, completedSubs = [], onSelect }) {
               className={`module-card ${cardClass} ${onSelect ? 'clickable' : ''}`}
               onClick={onSelect ? () => onSelect(module.id) : undefined}
             >
-              <span className="module-emoji">{module.emoji}</span>
+              <span className="module-emoji" aria-hidden="true">{module.emoji}</span>
               <div className="module-info">
                 <div className="module-titre">
                   {module.id}. {module.titre}
@@ -43,7 +52,7 @@ export default function ProgressMap({ profile, completedSubs = [], onSelect }) {
                     />
                   </div>
                   <span className="mini-count">
-                    {isComplete ? '✓' : `${done}/${total}`}
+                    {isComplete ? (mastery != null ? `✓ ${mastery} %` : '✓') : `${done}/${total}`}
                   </span>
                 </div>
               </div>

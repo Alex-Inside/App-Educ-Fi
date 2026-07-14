@@ -3,8 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#534AB7" />
+    <meta name="theme-color" content="#534ab7" />
+    <meta
+      name="description"
+      content="FinPath : éducation financière gratuite pour jeunes adultes. Budget, épargne, crédit, investissement — 38 leçons, simulateurs et coach. Sans pub, sans compte, sans démarchage."
+    />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%icon.svg" />
+    <link rel="manifest" href="%BASE_URL%manifest.webmanifest" />
     <title>FinPath — Ton coach finances perso</title>
+    <script>
+      // Applique le thème choisi avant le premier rendu (évite le flash).
+      try {
+        var s = JSON.parse(localStorage.getItem('finpath.v2') || '{}').settings
+        if (s && (s.theme === 'dark' || s.theme === 'light')) {
+          document.documentElement.setAttribute('data-theme', s.theme)
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
