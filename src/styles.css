@@ -1980,3 +1980,176 @@ button.module-card {
 .app.has-tabbar .coach-fab {
   bottom: calc(84px + env(safe-area-inset-bottom));
 }
+
+/* ============================================================
+   Gamification — niveau, pièces, défi, coffre, ligue, badges
+   ============================================================ */
+
+.level-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-hard);
+}
+
+.level-card.compact {
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.level-info { flex: 1; min-width: 0; }
+.level-title { font-weight: 900; font-size: 1.05rem; }
+.level-card.compact .level-title { font-size: 0.95rem; }
+.level-xp { font-weight: 800; color: var(--accent); font-size: 0.85rem; }
+.level-next { color: var(--text-muted); font-size: 0.78rem; }
+
+.level-coins {
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--amber-soft);
+  border-radius: 999px;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+
+/* Défi du jour */
+.defi-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  background: var(--card);
+  border: 2px dashed var(--amber);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+}
+
+.defi-card.done {
+  border-style: solid;
+  border-color: var(--border);
+  opacity: 0.7;
+  cursor: default;
+}
+
+.defi-emoji { font-size: 1.5rem; }
+.defi-text { flex: 1; display: flex; flex-direction: column; }
+.defi-text b { font-weight: 900; font-size: 0.98rem; }
+.defi-text small { color: var(--text-muted); font-size: 0.8rem; }
+
+/* Coffre hebdo */
+.chest-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin: 16px 0;
+  box-shadow: var(--shadow-hard);
+}
+
+.chest-card.ready {
+  border-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.chest-emoji { font-size: 1.7rem; }
+.chest-text { flex: 1; }
+.chest-text b { font-weight: 900; font-size: 0.98rem; display: block; }
+.chest-text small { color: var(--text-muted); font-size: 0.8rem; }
+
+.chest-open {
+  border: none;
+  background: var(--amber);
+  color: #3c2a08;
+  font: inherit;
+  font-weight: 900;
+  font-size: 0.85rem;
+  border-radius: 999px;
+  padding: 9px 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #c07f1a;
+}
+
+.chest-open:active { transform: translateY(3px); box-shadow: 0 1px 0 #c07f1a; }
+
+/* Ligue */
+.league {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  margin-bottom: 24px;
+}
+
+.league-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.league-row:last-of-type { border-bottom: none; }
+
+.league-rank {
+  width: 24px;
+  text-align: center;
+  font-weight: 900;
+  color: var(--text-muted);
+}
+
+.league-row.top .league-rank { color: var(--amber); }
+
+.league-name { flex: 1; font-weight: 700; }
+
+.league-xp { font-weight: 800; color: var(--text-muted); font-size: 0.85rem; }
+
+.league-row.me {
+  background: var(--accent-soft);
+  border-radius: 12px;
+}
+
+.league-row.me .league-name { color: var(--accent); font-weight: 900; }
+
+.league-note {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  padding: 10px 8px 4px;
+  line-height: 1.4;
+}
+
+/* Badges */
+.badges {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+}
+
+.badge-medal { font-size: 1.4rem; }
+.badge-label { font-size: 0.8rem; font-weight: 700; line-height: 1.2; }
+
+.center-mascot { margin: 0 auto 12px; }

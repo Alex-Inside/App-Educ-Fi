@@ -1,3 +1,11 @@
+> **Branche `v3-kapi` — refonte « Édufi » (direction Kapi).** Nouvelle identité
+> visuelle (mascotte pièce Kapi, palette crème/vert/ambre, Nunito), navigation
+> par onglets (Accueil / Parcours / Récompenses), parcours « Pas à pas » façon
+> chemin + « Étapes de vie », et gamification (XP, niveaux, pièces, défi du
+> jour, coffre hebdo, ligue, badges). Marque centralisée dans `src/brand.js`.
+> La v2 « FinPath » reste sur `main` (en ligne, intouchée). Le reste de ce
+> README décrit le socle commun, valable pour les deux.
+
 # FinPath 🧭
 
 App d'éducation financière **gratuite** pour jeunes adultes 18-25 ans :

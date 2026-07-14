@@ -11,9 +11,13 @@ import MomentScreen from './components/MomentScreen.jsx'
 import ParcoursTab from './components/ParcoursTab.jsx'
 import RewardsTab from './components/RewardsTab.jsx'
 import TabBar from './components/TabBar.jsx'
+import DailyChallenge from './components/DailyChallenge.jsx'
 import { loadState, saveState, clearState, exportState, parseImportedState } from './lib/storage.js'
 import { recordQuizResult, touchActivity } from './lib/adaptive.js'
 import { ACTIONS } from './data/actions.js'
+import { lessonReward, REWARD, weekKey, dayKey, chestState, getDailyChallenge } from './lib/gamification.js'
+
+const EMPTY_GAM = { xp: 0, coins: 0, weekKey: null, weekXP: 0, lastChallenge: null, lastChestWeek: null }
 
 const THEMES = ['auto', 'light', 'dark']
 
@@ -27,6 +31,7 @@ export default function App() {
   const [quizStats, setQuizStats] = useState(state?.quizStats ?? {})
   const [activeDays, setActiveDays] = useState(state?.activeDays ?? [])
   const [actionsDone, setActionsDone] = useState(state?.actionsDone ?? [])
+  const [gam, setGam] = useState(state?.gam ?? EMPTY_GAM)
   const [settings, setSettings] = useState(state?.settings ?? { theme: 'auto' })
 
   // view : null = écran racine (piloté par `tab`) · { moduleId } = module ·
@@ -41,8 +46,22 @@ export default function App() {
   }
 
   useEffect(() => {
-    saveState({ profile, completedSubs, coachHistory, quizStats, activeDays, actionsDone, settings })
-  }, [profile, completedSubs, coachHistory, quizStats, activeDays, actionsDone, settings])
+    saveState({ profile, completedSubs, coachHistory, quizStats, activeDays, actionsDone, gam, settings })
+  }, [profile, completedSubs, coachHistory, quizStats, activeDays, actionsDone, gam, settings])
+
+  // Crédite XP + pièces, en tenant à jour le compteur d'XP de la semaine (ligue/coffre).
+  const award = (xp, coins) =>
+    setGam((g) => {
+      const wk = weekKey()
+      const sameWeek = g.weekKey === wk
+      return {
+        ...g,
+        xp: g.xp + xp,
+        coins: g.coins + coins,
+        weekKey: wk,
+        weekXP: (sameWeek ? g.weekXP : 0) + xp,
+      }
+    })
 
   // Thème : auto suit le système, sinon on force via l'attribut data-theme.
   useEffect(() => {
@@ -65,7 +84,25 @@ export default function App() {
     setQuizStats({})
     setActiveDays([])
     setActionsDone([])
+    setGam(EMPTY_GAM)
     setView(null)
+  }
+
+  // Défi du jour : crédite +20 XP une seule fois par jour.
+  const challengeDoneToday = gam.lastChallenge === dayKey()
+  const finishChallenge = () => {
+    if (challengeDoneToday) return
+    award(REWARD.challenge.xp, REWARD.challenge.coins)
+    setGam((g) => ({ ...g, lastChallenge: dayKey() }))
+    setActiveDays((d) => touchActivity(d))
+  }
+
+  // Coffre hebdo : récupère les pièces une fois par semaine.
+  const claimChest = () => {
+    const chest = chestState(gam)
+    if (!chest.available) return
+    award(0, chest.coins)
+    setGam((g) => ({ ...g, lastChestWeek: chest.week }))
   }
 
   const markActionDone = (subId) => {
@@ -73,11 +110,14 @@ export default function App() {
   }
 
   const completeSub = (subId, result) => {
-    if (!completedSubs.includes(subId)) {
+    const isRevision = completedSubs.includes(subId)
+    if (!isRevision) {
       setCompletedSubs([...completedSubs, subId])
     }
     if (result?.total) {
       setQuizStats((s) => recordQuizResult(s, subId, result))
+      const r = lessonReward({ firstTry: result.firstTry, total: result.total, isRevision })
+      award(r.xp, r.coins)
     }
     setActiveDays((d) => touchActivity(d))
     // Retour au contexte d'origine : le Moment de vie si on en vient, sinon le module.
@@ -91,7 +131,7 @@ export default function App() {
   const openSub = (subId) => setView({ moduleId: Number(subId.split('.')[0]), subId })
 
   const handleExport = () =>
-    exportState({ profile, completedSubs, coachHistory, quizStats, activeDays, actionsDone, settings })
+    exportState({ profile, completedSubs, coachHistory, quizStats, activeDays, actionsDone, gam, settings })
 
   const handleImport = async (file) => {
     const imported = parseImportedState(await file.text())
@@ -105,6 +145,7 @@ export default function App() {
     setQuizStats(imported.quizStats)
     setActiveDays(imported.activeDays)
     setActionsDone(imported.actionsDone)
+    setGam(imported.gam ?? EMPTY_GAM)
     setSettings(imported.settings)
     setView(null)
   }
@@ -132,6 +173,15 @@ export default function App() {
         onOpenSub={(subId) =>
           setView({ moduleId: Number(subId.split('.')[0]), subId, fromMoment: view.momentId })
         }
+        onBack={() => setView(null)}
+      />
+    )
+  } else if (view?.page === 'challenge') {
+    screen = (
+      <DailyChallenge
+        questions={getDailyChallenge()}
+        alreadyDone={challengeDoneToday}
+        onFinish={finishChallenge}
         onBack={() => setView(null)}
       />
     )
@@ -185,7 +235,15 @@ export default function App() {
     )
   } else if (tab === 'recompenses') {
     screen = (
-      <RewardsTab completedSubs={completedSubs} quizStats={quizStats} activeDays={activeDays} />
+      <RewardsTab
+        completedSubs={completedSubs}
+        quizStats={quizStats}
+        activeDays={activeDays}
+        gam={gam}
+        challengeDoneToday={challengeDoneToday}
+        onOpenChallenge={() => setView({ page: 'challenge' })}
+        onClaimChest={claimChest}
+      />
     )
   } else {
     screen = (
@@ -194,12 +252,15 @@ export default function App() {
         completedSubs={completedSubs}
         quizStats={quizStats}
         activeDays={activeDays}
+        gam={gam}
+        challengeDoneToday={challengeDoneToday}
         actionsDone={actionsDone.length}
         actionsPending={completedSubs.filter((s) => ACTIONS[s] && !actionsDone.includes(s)).length}
         theme={settings.theme}
         onCycleTheme={cycleTheme}
         onOpenSub={openSub}
         onOpenParcours={() => goTab('parcours')}
+        onOpenChallenge={() => setView({ page: 'challenge' })}
         onOpenTools={() => setView({ page: 'tools' })}
         onOpenGlossaire={() => setView({ page: 'glossaire' })}
         onOpenActions={() => setView({ page: 'actions' })}

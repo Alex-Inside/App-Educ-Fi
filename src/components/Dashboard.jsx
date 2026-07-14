@@ -7,6 +7,7 @@ import {
   globalMastery,
 } from '../lib/adaptive.js'
 import { getSousModule } from '../data/curriculum.js'
+import { levelInfo, REWARD } from '../lib/gamification.js'
 import KapiMascot from './KapiMascot.jsx'
 import { BRAND } from '../brand.js'
 
@@ -24,12 +25,15 @@ export default function Dashboard({
   completedSubs,
   quizStats,
   activeDays,
+  gam,
+  challengeDoneToday,
   actionsDone,
   actionsPending,
   theme,
   onCycleTheme,
   onOpenSub,
   onOpenParcours,
+  onOpenChallenge,
   onOpenTools,
   onOpenGlossaire,
   onOpenActions,
@@ -42,6 +46,7 @@ export default function Dashboard({
   const reviews = getReviewQueue(completedSubs, quizStats)
   const mastery = globalMastery(quizStats)
   const streak = getStreak(activeDays)
+  const lvl = levelInfo(gam.xp)
   const fileRef = useRef(null)
 
   const themeIcon = theme === 'dark' ? '🌙' : theme === 'light' ? '☀️' : '🌗'
@@ -65,6 +70,23 @@ export default function Dashboard({
         </div>
       </div>
 
+      <div className="level-card compact">
+        <svg width="72" height="72" viewBox="0 0 72 72" aria-hidden="true">
+          <circle cx="36" cy="36" r="29" fill="none" stroke="var(--chip)" strokeWidth="8" />
+          <circle
+            cx="36" cy="36" r="29" fill="none" stroke="var(--accent)" strokeWidth="8"
+            strokeLinecap="round" strokeDasharray={`${(lvl.pct / 100) * 182} 182`}
+            transform="rotate(-90 36 36)"
+          />
+          <text x="36" y="41" textAnchor="middle" fontSize="18" fontWeight="900" fill="var(--text)">{lvl.level}</text>
+        </svg>
+        <div className="level-info">
+          <div className="level-title">{lvl.title}</div>
+          <div className="level-next">{lvl.into}/500 XP — plus que {lvl.toNext} XP</div>
+        </div>
+        <span className="level-coins">🪙 {gam.coins}</span>
+      </div>
+
       {done === total ? (
         <div className="result-header">
           <div className="check">🏆</div>
@@ -75,7 +97,7 @@ export default function Dashboard({
         <div className="stats-row">
           <div className="stat-card">
             <span className="stat-value">{done}<span className="stat-sub">/{total}</span></span>
-            <span className="stat-label">sous-modules</span>
+            <span className="stat-label">leçons</span>
           </div>
           <div className="stat-card">
             <span className="stat-value">{mastery != null ? `${mastery} %` : '—'}</span>
@@ -86,6 +108,17 @@ export default function Dashboard({
             <span className="stat-label">{streak > 1 ? 'jours de suite' : 'série'}</span>
           </div>
         </div>
+      )}
+
+      {!challengeDoneToday && (
+        <button className="defi-card" onClick={onOpenChallenge}>
+          <span className="defi-emoji" aria-hidden="true">⚡</span>
+          <span className="defi-text">
+            <b>Défi du jour</b>
+            <small>3 questions éclair · +{REWARD.challenge.xp} XP</small>
+          </span>
+          <span aria-hidden="true">→</span>
+        </button>
       )}
 
       {reco && (

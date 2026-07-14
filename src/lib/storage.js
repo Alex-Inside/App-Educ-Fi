@@ -16,6 +16,8 @@ const EMPTY = {
   activeDays: [],
   // actionsDone = sous-modules dont l'action du Plan d'action est cochée
   actionsDone: [],
+  // gamification : XP/pièces cumulés + suivi hebdo/jour (coffre, défi, ligue)
+  gam: { xp: 0, coins: 0, weekKey: null, weekXP: 0, lastChallenge: null, lastChestWeek: null },
   settings: { theme: 'auto' },
 }
 
@@ -27,6 +29,7 @@ function normalize(data) {
     quizStats: data.quizStats && typeof data.quizStats === 'object' ? data.quizStats : {},
     activeDays: Array.isArray(data.activeDays) ? data.activeDays : [],
     actionsDone: Array.isArray(data.actionsDone) ? data.actionsDone : [],
+    gam: { ...EMPTY.gam, ...(data.gam ?? {}) },
     settings: { ...EMPTY.settings, ...(data.settings ?? {}) },
   }
 }
