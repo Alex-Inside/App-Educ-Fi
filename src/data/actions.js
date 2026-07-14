@@ -42,14 +42,6 @@ export const ACTIONS = {
     type: 'perso',
   },
   '1.5': {
-    titre: 'Fais ta simulation d’aides officielles',
-    detail: 'Le simulateur public passe en revue APL, prime d’activité et dizaines d’autres droits. Des milliards d’euros ne sont pas réclamés chaque année.',
-    duree: '10 min',
-    type: 'externe',
-    lien: 'https://www.mesdroitssociaux.gouv.fr',
-    lienLabel: 'mesdroitssociaux.gouv.fr',
-  },
-  '1.6': {
     titre: 'Instaure ta règle des 24 heures',
     detail: 'Prochaine envie d’achat : mets l’article au panier, ferme l’appli, décide demain. Note ce que ça change au bout d’une semaine.',
     duree: 'habitude',

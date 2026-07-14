@@ -111,7 +111,7 @@ const TOPICS = [
   },
   {
     keywords: ['aide', 'apl', 'caf', 'bourse crous', 'prime d’activite', "prime d'activite", 'crous', 'aides'],
-    sub: '1.5',
+    sub: null,
     reply:
       "Des milliards d'euros d'aides ne sont pas réclamés chaque année, en grande partie par les jeunes ! APL pour le logement, bourses CROUS, prime d'activité dès tes premiers salaires, aides régionales transport/culture… Le réflexe : fais le tour en 10 minutes sur le simulateur officiel mesdroitssociaux.gouv.fr.",
   },

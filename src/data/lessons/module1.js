@@ -1,7 +1,7 @@
 // Contenu long du module 1 — format « Kapi » : 5 pages × 3-4 blocs + quiz de
-// 5 questions avec explications. Rédigé et validé dans le design (Claude Design).
-// Mappé sur les sous-modules du curriculum : 1.1, 1.2, 1.3, 1.5, 1.6.
-// (1.4 « Piloter au quotidien » garde pour l'instant le format court.)
+// 5 questions avec explications. Sous-modules : 1.1 à 1.5.
+// (« Les aides » a été retiré du parcours ; « Ton cerveau et l'argent » est
+// désormais la leçon 1.5.)
 //
 // Un bloc a soit `text` (paragraphe), soit `items` (liste à puces).
 
@@ -127,48 +127,48 @@ export const MODULE1_LESSONS = {
     ],
   },
 
-  '1.5': {
-    title: 'Les aides auxquelles tu as droit',
-    goal: `À la fin, tu sauras quelles aides tu peux toucher (logement, revenus, santé, quotidien), et comment les demander sans te perdre.`,
-    badge: 'Zéro euro laissé',
+  '1.4': {
+    title: 'Piloter ton budget au quotidien',
+    goal: `À la fin, tu sauras automatiser ton budget, séparer tes comptes et suivre tes dépenses en quelques minutes par mois — sans tableur ni prise de tête.`,
+    badge: 'Budget sur pilote',
     pages: [
-      { tag: 'PAGE 1 · LE NON-RECOURS', title: 'Des milliards non réclamés', blocks: [
-        { label: 'Le constat', text: `Chaque année, environ 10 milliards d'euros d'aides sociales ne sont PAS réclamés en France. Environ un tiers des personnes éligibles à la prime d'activité ne la demandent jamais.` },
-        { label: 'Pourquoi ?', text: `On croit ne pas y avoir droit (« c'est pour les autres »), on a peur de la paperasse, ou on ne connaît simplement pas l'aide. Résultat : de l'argent qui t'appartient reste dans les caisses.` },
-        { label: 'Changer de regard', text: `Ces aides sont financées par les cotisations et impôts que tu paies (souviens-toi de ta fiche de paie). Les demander n'est pas de l'assistanat : c'est utiliser un droit.` },
+      { tag: 'PAGE 1 · SE PAYER EN PREMIER', title: 'L\'automatisation fait le travail à ta place', blocks: [
+        { label: 'Le principe', text: `Dès que la paie tombe, un virement automatique envoie ton épargne sur un autre compte — AVANT que tu commences à dépenser. Tu n'épargnes plus « ce qui reste » : tu dépenses ce qui reste une fois l'épargne mise de côté.` },
+        { label: 'Pourquoi ça marche', text: `La volonté est une ressource limitée qui s'épuise dans le mois. L'automatisation la remplace : une fois le virement programmé, l'épargne se fait toute seule, même les mois où tu n'y penses pas.` },
+        { label: 'Combien', text: `Commence petit, même 20 €. Ce qui compte, c'est le mécanisme, pas le montant. Tu l'augmentes d'un cran à chaque hausse de revenu — tu ne sentiras jamais passer une hausse que tu n'as jamais « touchée ».` },
       ] },
-      { tag: 'PAGE 2 · LE LOGEMENT', title: 'APL : souvent la plus grosse aide', blocks: [
-        { label: 'Qui y a droit', text: `Locataire, colocataire ou étudiant en résidence : l'APL dépend de ton loyer, ta ville et TES revenus (pas ceux de tes parents, sauf rattachement fiscal — à vérifier avant de demander).` },
-        { label: 'Combien', text: `De quelques euros à plus de 250 €/mois. Le calcul se fait sur tes revenus des 12 derniers mois, actualisés tous les 3 mois : un changement de situation peut ouvrir des droits en cours d'année.` },
-        { label: 'Comment', text: `Demande en ligne sur caf.fr, dès la signature du bail — l'aide n'est PAS rétroactive : chaque mois de retard est perdu. Il te faudra bail, RIB et justificatifs de revenus.` },
+      { tag: 'PAGE 2 · SÉPARER SES COMPTES', title: 'Un compte, un rôle', blocks: [
+        { label: 'Le compte courant', text: `Il reçoit la paie et paie le quotidien (loyer, factures, courses, carte). C'est le compte « qui bouge » — le seul dont la carte reste dans ta poche.` },
+        { label: 'Le compte d\'épargne', text: `Séparé, idéalement dans une autre banque ou au minimum sur un livret distinct, pour ne pas voir cet argent comme « disponible ». Loin des yeux, loin de la carte : c'est ce qui l'empêche de fondre.` },
+        { label: 'Le compte « plaisir » (optionnel)', text: `Certains ouvrent un 2e compte gratuit pour l'enveloppe envies (les 30 %), avec sa propre carte. Quand il est vide, on attend le mois suivant — sans jamais toucher à l'essentiel ni à l'épargne.` },
       ] },
-      { tag: 'PAGE 3 · LES REVENUS', title: 'Prime d\'activité, RSA, bourses', blocks: [
-        { label: 'La prime d\'activité', text: `Tu travailles et gagnes entre ~600 et ~1 900 € net ? Tu y as peut-être droit, même en CDI temps plein. Montant moyen : ~180 €/mois. Demande sur caf.fr avec ton « montant net social ».` },
-        { label: 'Le RSA', text: `Sans activité et plus de 25 ans (ou jeune parent, ou 18-25 ans ayant travaillé 2 ans) : environ 640 €/mois pour une personne seule, avec accompagnement vers l'emploi.` },
-        { label: 'Les bourses étudiantes', text: `La bourse CROUS (de ~1 500 à ~6 300 €/an selon l'échelon) se demande via le Dossier Social Étudiant entre mars et mai — même sans certitude d'éligibilité : la simulation est gratuite.` },
+      { tag: 'PAGE 3 · SUIVRE SANS SE PRENDRE LA TÊTE', title: '5 minutes par semaine, pas plus', blocks: [
+        { label: 'L\'appli de ta banque', text: `Elle catégorise déjà tes dépenses automatiquement. Un coup d'œil hebdomadaire suffit à repérer un poste qui dérape, sans rien noter à la main.` },
+        { label: 'Les agrégateurs', text: `Une appli qui regroupe tous tes comptes de plusieurs banques en un seul écran (grâce à la réglementation DSP2). Pratique si tu es multi-banques — mais vérifie qu'elle est bien agréée/enregistrée par l'ACPR avant de lui confier tes accès.` },
+        { label: 'La règle simple', text: `Tu ne traques pas chaque euro : tu surveilles tes 3 enveloppes (50/30/20). Si l'enveloppe envies est déjà vide le 20 du mois, tu lèves le pied. C'est tout le suivi dont tu as besoin.` },
       ] },
-      { tag: 'PAGE 4 · SANTÉ & QUOTIDIEN', title: 'Les aides qu\'on oublie toujours', blocks: [
-        { label: 'La santé', text: `La Complémentaire Santé Solidaire (C2S) : une mutuelle gratuite ou à moins de 1 €/jour si tes revenus sont modestes. Demande via ameli.fr — beaucoup de jeunes y ont droit sans le savoir.` },
-        { label: 'L\'énergie', text: `Le chèque énergie (jusqu'à ~280 €/an) est envoyé automatiquement… si ta déclaration d'impôts est à jour, même à revenu zéro. Déclarer ses revenus est donc rentable, même sans impôt à payer.` },
-        { label: 'Les transports', text: `La plupart des régions offrent des tarifs réduits ou gratuits (jeunes, demandeurs d'emploi, bas revenus). Vérifie le site de ton réseau : souvent −50 % en 10 minutes.` },
+      { tag: 'PAGE 4 · LE CALENDRIER', title: 'Aligner les prélèvements sur ta paie', blocks: [
+        { label: 'Le problème', text: `Quand loyer et abonnements tombent AVANT ta paie, tu passes en négatif les derniers jours du mois — et le découvert coûte cher (revois la leçon précédente).` },
+        { label: 'La solution', text: `Demande à décaler tes gros prélèvements juste APRÈS ta date de paie. La plupart des organismes (bailleur, énergie, télécom) le permettent en 5 minutes depuis leur espace client.` },
+        { label: 'Les alertes', text: `Active une alerte de solde bas (par exemple sous 100 €) dans ton appli bancaire. C'est un radar gratuit : tu réagis avant le découvert, pas après les frais.` },
       ] },
-      { tag: 'PAGE 5 · LE RÉFLEXE KAPI', title: 'Ton audit d\'aides en 30 minutes', blocks: [
-        { label: 'L\'outil officiel', text: `Le simulateur mesdroitssociaux.gouv.fr teste TOUTES les aides nationales en une seule saisie de 15 minutes. Gratuit, anonyme au début, sans engagement.` },
-        { label: 'Ce week-end', items: ['Fais la simulation complète sur mesdroitssociaux.gouv.fr avec ta dernière fiche de paie (ligne « montant net social »)', 'Fais les demandes en ligne pour chaque aide détectée — commence par la plus grosse', 'Note les dates de renouvellement (la prime d\'activité se redéclare tous les 3 mois)'] },
-        { label: 'À chaque changement de vie', items: ['Déménagement, perte d\'emploi, baisse de salaire, naissance : refais la simulation', 'Déclare vite tes changements à la CAF — dans les deux sens, pour éviter les trop-perçus à rembourser'] },
+      { tag: 'PAGE 5 · LE RÉFLEXE KAPI', title: 'Ton pilote automatique en 3 gestes', blocks: [
+        { label: 'Pourquoi maintenant', text: `Un budget piloté à la main finit toujours par être abandonné. Un budget automatisé, lui, tient tout seul — même les mois chargés.` },
+        { label: 'Ce week-end — 20 minutes', items: ['Programme le virement automatique d\'épargne le lendemain de ta paie', 'Ouvre ou identifie un compte / livret séparé pour cette épargne', 'Décale tes gros prélèvements juste après ta date de paie'] },
+        { label: 'Chaque semaine — 5 minutes', items: ['Jette un œil à tes 3 enveloppes dans l\'appli de ta banque', 'Ralentis si l\'enveloppe envies se vide trop vite, sans culpabiliser', 'Garde l\'alerte de solde bas active en permanence'] },
       ] },
     ],
     questions: [
-      { q: 'Quelle part des éligibles ne demande jamais la prime d\'activité ?', opts: ['Environ 5 %', 'Environ un tiers', 'Quasiment personne'], good: 1, explain: `Le non-recours est massif : environ un tiers des éligibles passent à côté, souvent par simple méconnaissance.` },
-      { q: 'L\'APL se demande…', opts: ['Dès la signature du bail, elle n\'est pas rétroactive', 'En fin d\'année, avec effet rétroactif', 'Uniquement si tes parents sont non imposables'], good: 0, explain: `Chaque mois de retard est perdu. Demande sur caf.fr dès que tu as bail et RIB.` },
-      { q: 'Pour tes demandes CAF, tu utilises quelle ligne de ta fiche de paie ?', opts: ['Le net à payer', 'Le montant net social', 'Le salaire brut'], good: 1, explain: `Le montant net social est la référence officielle des aides — leçon 1, ça paie déjà !` },
-      { q: 'La Complémentaire Santé Solidaire (C2S), c\'est…', opts: ['Une mutuelle gratuite ou à moins de 1 €/jour sous conditions', 'Une assurance auto pour jeunes', 'Un crédit santé'], good: 0, explain: `C'est une complémentaire santé complète pour revenus modestes. Beaucoup de jeunes actifs y ont droit sans le savoir.` },
-      { q: 'Le meilleur point de départ pour connaître TOUS tes droits ?', opts: ['Demander à sa banque', 'mesdroitssociaux.gouv.fr', 'Attendre un courrier de la CAF'], good: 1, explain: `Le simulateur officiel teste toutes les aides nationales en une saisie. 15 minutes qui peuvent rapporter des centaines d'euros.` },
+      { q: '« Se payer en premier », concrètement, c\'est…', opts: ['Épargner ce qu\'il reste en fin de mois', 'Virer l\'épargne automatiquement dès la paie, avant de dépenser', 'Se faire un plaisir à chaque paie'], good: 1, explain: `L'épargne part en premier, par virement automatique. Ce qui reste devient ton budget — l'ordre inverse ne marche presque jamais.` },
+      { q: 'Pourquoi mettre son épargne sur un compte séparé ?', opts: ['Pour gagner plus d\'intérêts obligatoirement', 'Pour ne pas la voir comme « disponible » et éviter de la dépenser', 'Parce que la loi l\'impose'], good: 1, explain: `Loin des yeux, loin de la carte : séparer l'épargne l'empêche de se faire grignoter par les dépenses courantes.` },
+      { q: 'Le bon réflexe pour éviter le découvert de fin de mois ?', opts: ['Payer uniquement en espèces', 'Décaler ses gros prélèvements juste après la paie', 'Supprimer son appli bancaire'], good: 1, explain: `Aligner loyer et abonnements sur ta date de paie évite la zone rouge des derniers jours du mois.` },
+      { q: 'Suivre son budget au quotidien devrait te prendre…', opts: ['Plusieurs heures par semaine', 'Quelques minutes par semaine en surveillant les 3 enveloppes', 'Rien du tout, inutile de regarder'], good: 1, explain: `Pas besoin de noter chaque euro : un coup d'œil hebdo aux 3 enveloppes suffit à garder le cap.` },
+      { q: 'Avant d\'utiliser une appli qui agrège tous tes comptes, tu vérifies…', opts: ['Qu\'elle est jolie', 'Qu\'elle est bien agréée / enregistrée par l\'ACPR', 'Qu\'elle est gratuite à vie'], good: 1, explain: `Un agrégateur accède à tes comptes : n'utilise qu'un service agréé (cadre DSP2 / ACPR), qui sécurise et n'exploite pas tes données.` },
     ],
   },
 
-  '1.6': {
-    title: 'Achats impulsifs : reprendre la main',
+  '1.5': {
+    title: 'Ton cerveau et l\'argent : les achats impulsifs',
     goal: `À la fin, tu sauras repérer les techniques qui te font acheter sans réfléchir, et tu auras des garde-fous concrets — sans renoncer au plaisir.`,
     badge: 'Acheteur·se éclairé·e',
     pages: [

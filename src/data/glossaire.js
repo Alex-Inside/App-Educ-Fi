@@ -4,7 +4,7 @@
 export const GLOSSAIRE = [
   { terme: 'Agios', def: 'Les intérêts que la banque te facture quand ton compte est à découvert. Souvent 7 à 16 % par an, parfois avec des commissions en plus.', sub: '1.3' },
   { terme: 'AMF', def: "L'Autorité des marchés financiers : le gendarme de la bourse en France. Sa liste noire recense les sites d'investissement frauduleux.", sub: '8.1' },
-  { terme: 'APL', def: "Aide personnalisée au logement, versée par la CAF pour alléger ton loyer. Beaucoup de jeunes y ont droit sans la demander.", sub: '1.5' },
+  { terme: 'APL', def: "Aide personnalisée au logement, versée par la CAF pour alléger ton loyer. Beaucoup de jeunes y ont droit sans la demander.", sub: null },
   { terme: 'Assurance-vie', def: "Malgré son nom, ce n'est pas une assurance décès : c'est une enveloppe pour placer ton argent, avec des avantages fiscaux après 8 ans.", sub: '7.3' },
   { terme: 'Assurance emprunteur', def: "L'assurance exigée avec un crédit immobilier. Depuis la loi Lemoine, tu peux en changer à tout moment pour payer moins cher.", sub: '3.4' },
   { terme: 'Bonus-malus', def: "Le coefficient qui fait monter ou baisser ta prime d'assurance auto selon tes accidents responsables. Il te suit de contrat en contrat.", sub: '4.3' },
@@ -34,7 +34,7 @@ export const GLOSSAIRE = [
   { terme: 'PEL', def: 'Plan épargne logement : un taux garanti pour préparer un achat immobilier. Argent peu disponible — à n\'ouvrir que si le projet est réel.', sub: '2.4' },
   { terme: 'PER', def: 'Plan d\'épargne retraite : les versements se déduisent des impôts, mais l\'argent est bloqué jusqu\'à la retraite. Rarement prioritaire avant 30 ans.', sub: '7.1' },
   { terme: 'Phishing', def: 'Un faux message (banque, colis, impôts…) qui imite un organisme officiel pour te voler tes codes. Ta banque ne demande JAMAIS un code par téléphone.', sub: '8.3' },
-  { terme: 'Prime d\'activité', def: 'Un complément de revenu versé par la CAF dès tes premiers salaires. Simulation en 5 minutes sur mesdroitssociaux.gouv.fr.', sub: '1.5' },
+  { terme: 'Prime d\'activité', def: 'Un complément de revenu versé par la CAF dès tes premiers salaires. Simulation en 5 minutes sur mesdroitssociaux.gouv.fr.', sub: null },
   { terme: 'Responsabilité civile', def: 'La garantie qui paie les dommages que tu causes aux autres (dégât des eaux chez le voisin…). Incluse dans l\'assurance habitation.', sub: '4.2' },
   { terme: 'SCPI', def: 'La « pierre-papier » : des parts d\'un parc immobilier géré pour toi, qui versent des loyers mutualisés. Frais d\'entrée élevés, horizon 8-10 ans.', sub: '6.2' },
   { terme: 'Surendettement', def: 'Quand les dettes deviennent impossibles à rembourser. La commission de surendettement de la Banque de France peut rééchelonner ou effacer les dettes — gratuit.', sub: '3.3' },
