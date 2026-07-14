@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { getSousModule } from '../data/curriculum.js'
 import { SUBMODULE_CONTENT } from '../data/content/index.js'
+import { getRichLesson } from '../data/lessons/index.js'
 import { getAction, DISCLAIMER } from '../data/actions.js'
 import { isModuleComplete } from '../lib/progression.js'
 import { isFastTrackEligible, masteryOf } from '../lib/adaptive.js'
@@ -24,9 +25,10 @@ export default function SubModuleScreen({
   onBack,
 }) {
   const { module, sousModule } = getSousModule(subId)
+  const rich = getRichLesson(subId) // leçon longue (5 pages + quiz 5 Q) si dispo
   const content = SUBMODULE_CONTENT[subId]
-  const quiz = content.quiz
-  const CONTENT_STEPS = 3
+  const quiz = rich ? rich.quiz : content.quiz
+  const CONTENT_STEPS = rich ? rich.pages.length : 3
   const totalSteps = CONTENT_STEPS + quiz.length
 
   const alreadyDone = completedSubs.includes(subId)
@@ -69,6 +71,9 @@ export default function SubModuleScreen({
             Quiz : {finalFirstTry}/{quiz.length} du premier coup
             {perfect ? ' — sans faute 👏' : ''}
           </p>
+          {rich?.badge && !alreadyDone && (
+            <div className="badge-unlocked">🏅 Badge « {rich.badge} » débloqué !</div>
+          )}
         </div>
 
         {action && (
@@ -113,37 +118,61 @@ export default function SubModuleScreen({
     )
   }
 
-  const stepDefs = [
-    {
-      tag: '📖 Prise de connaissance',
-      body: content.decouverte.map((p, i) => (
-        <p key={i} className="content-text">
-          {p}
-        </p>
-      )),
-      cta: 'Voir un cas concret →',
-    },
-    {
-      tag: '🎬 Cas concret',
-      body: content.casConcret.map((p, i) => (
-        <p key={i} className="content-text">
-          {p}
-        </p>
-      )),
-      cta: 'La synthèse →',
-    },
-    {
-      tag: '💡 Synthèse — à retenir',
-      body: (
-        <ul className="content-points">
-          {content.synthese.map((point, i) => (
-            <li key={i}>{point}</li>
-          ))}
-        </ul>
-      ),
-      cta: 'Vérifier que j’ai compris →',
-    },
-  ]
+  // Étapes de contenu : format long (pages) si dispo, sinon format court.
+  const stepDefs = rich
+    ? rich.pages.map((page, i) => ({
+        tag: page.tag,
+        title: page.title,
+        body: (
+          <div className="lesson-blocks">
+            {page.blocks.map((b, j) => (
+              <div key={j} className="lesson-block">
+                <span className="lesson-block-label">{b.label}</span>
+                {b.text && <p className="content-text">{b.text}</p>}
+                {b.items && (
+                  <ul className="content-points">
+                    {b.items.map((it, k) => (
+                      <li key={k}>{it}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        ),
+        cta: i === rich.pages.length - 1 ? 'Passer au quiz →' : 'Continuer →',
+      }))
+    : [
+        {
+          tag: '📖 Prise de connaissance',
+          body: content.decouverte.map((p, i) => (
+            <p key={i} className="content-text">
+              {p}
+            </p>
+          )),
+          cta: 'Voir un cas concret →',
+        },
+        {
+          tag: '🎬 Cas concret',
+          body: content.casConcret.map((p, i) => (
+            <p key={i} className="content-text">
+              {p}
+            </p>
+          )),
+          cta: 'La synthèse →',
+        },
+        {
+          tag: '💡 Synthèse — à retenir',
+          body: (
+            <ul className="content-points">
+              {content.synthese.map((point, i) => (
+                <li key={i}>{point}</li>
+              ))}
+            </ul>
+          ),
+          cta: 'Vérifier que j’ai compris →',
+        },
+      ]
 
   return (
     <>
@@ -185,8 +214,12 @@ export default function SubModuleScreen({
         />
       ) : (
         <>
+          {rich && (
+            <div className="lesson-pagecount">Page {step + 1} / {CONTENT_STEPS}</div>
+          )}
           <div className="content-card">
             <span className="content-tag">{stepDefs[step].tag}</span>
+            {stepDefs[step].title && <h3 className="lesson-title">{stepDefs[step].title}</h3>}
             {stepDefs[step].body}
           </div>
           <div className="question-footer">

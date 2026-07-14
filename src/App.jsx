@@ -12,12 +12,19 @@ import ParcoursTab from './components/ParcoursTab.jsx'
 import RewardsTab from './components/RewardsTab.jsx'
 import TabBar from './components/TabBar.jsx'
 import DailyChallenge from './components/DailyChallenge.jsx'
+import Shop from './components/Shop.jsx'
 import { loadState, saveState, clearState, exportState, parseImportedState } from './lib/storage.js'
 import { recordQuizResult, touchActivity } from './lib/adaptive.js'
 import { ACTIONS } from './data/actions.js'
-import { lessonReward, REWARD, weekKey, dayKey, chestState, getDailyChallenge } from './lib/gamification.js'
+import {
+  lessonReward, REWARD, weekKey, dayKey, chestState, getDailyChallenge,
+  isXpBoostActive, pendingFreeze, SHOP,
+} from './lib/gamification.js'
 
-const EMPTY_GAM = { xp: 0, coins: 0, weekKey: null, weekXP: 0, lastChallenge: null, lastChestWeek: null }
+const EMPTY_GAM = {
+  xp: 0, coins: 0, weekKey: null, weekXP: 0, lastChallenge: null, lastChestWeek: null,
+  jokers: 0, freezes: 0, xpBoostUntil: 0, themes: [],
+}
 
 const THEMES = ['auto', 'light', 'dark']
 
@@ -50,18 +57,58 @@ export default function App() {
   }, [profile, completedSubs, coachHistory, quizStats, activeDays, actionsDone, gam, settings])
 
   // Crédite XP + pièces, en tenant à jour le compteur d'XP de la semaine (ligue/coffre).
+  // Le boost « Double XP » de la boutique double les gains d'XP quand il est actif.
   const award = (xp, coins) =>
     setGam((g) => {
       const wk = weekKey()
       const sameWeek = g.weekKey === wk
+      const gained = isXpBoostActive(g) ? xp * 2 : xp
       return {
         ...g,
-        xp: g.xp + xp,
+        xp: g.xp + gained,
         coins: g.coins + coins,
         weekKey: wk,
-        weekXP: (sameWeek ? g.weekXP : 0) + xp,
+        weekXP: (sameWeek ? g.weekXP : 0) + gained,
       }
     })
+
+  // Applique le thème coloré choisi (boutique) via un attribut sur <html>.
+  useEffect(() => {
+    const root = document.documentElement
+    if (settings.accent && settings.accent !== 'foret') root.setAttribute('data-accent', settings.accent)
+    else root.removeAttribute('data-accent')
+  }, [settings.accent])
+
+  // Gel de série : au chargement, comble un éventuel trou d'un jour (une fois).
+  useEffect(() => {
+    const day = pendingFreeze(activeDays, gam.freezes)
+    if (day) {
+      setActiveDays((d) => (d.includes(day) ? d : [...d, day]))
+      setGam((g) => ({ ...g, freezes: Math.max(0, g.freezes - 1) }))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Achat en boutique : débite les pièces et applique l'effet.
+  const buyItem = (item) => {
+    if (gam.coins < item.price) return
+    if (item.kind === 'theme') {
+      if (!gam.themes.includes(item.accent)) {
+        setGam((g) => ({ ...g, coins: g.coins - item.price, themes: [...g.themes, item.accent] }))
+      }
+      setSettings((s) => ({ ...s, accent: item.accent }))
+      return
+    }
+    setGam((g) => {
+      const next = { ...g, coins: g.coins - item.price }
+      if (item.kind === 'boost') next.xpBoostUntil = Date.now() + 24 * 3600 * 1000
+      if (item.kind === 'stack') next[item.field] = (g[item.field] ?? 0) + 1
+      return next
+    })
+  }
+
+  const applyAccent = (accent) => setSettings((s) => ({ ...s, accent }))
+  const useJoker = () => setGam((g) => ({ ...g, jokers: Math.max(0, g.jokers - 1) }))
 
   // Thème : auto suit le système, sinon on force via l'attribut data-theme.
   useEffect(() => {
@@ -85,6 +132,7 @@ export default function App() {
     setActiveDays([])
     setActionsDone([])
     setGam(EMPTY_GAM)
+    setSettings((s) => ({ ...s, accent: 'foret' }))
     setView(null)
   }
 
@@ -185,6 +233,16 @@ export default function App() {
         onBack={() => setView(null)}
       />
     )
+  } else if (view?.page === 'shop') {
+    screen = (
+      <Shop
+        gam={gam}
+        activeAccent={settings.accent}
+        onBuy={buyItem}
+        onApplyAccent={applyAccent}
+        onBack={() => setView(null)}
+      />
+    )
   } else if (view?.page === 'actions') {
     screen = (
       <ActionPlan
@@ -205,6 +263,8 @@ export default function App() {
         quizStats={quizStats}
         actionsDone={actionsDone}
         onActionDone={markActionDone}
+        jokers={gam.jokers}
+        onUseJoker={useJoker}
         onBack={() =>
           setView(
             view.fromMoment
@@ -243,6 +303,7 @@ export default function App() {
         challengeDoneToday={challengeDoneToday}
         onOpenChallenge={() => setView({ page: 'challenge' })}
         onClaimChest={claimChest}
+        onOpenShop={() => setView({ page: 'shop' })}
       />
     )
   } else {

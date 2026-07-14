@@ -2153,3 +2153,150 @@ button.module-card {
 .badge-label { font-size: 0.8rem; font-weight: 700; line-height: 1.2; }
 
 .center-mascot { margin: 0 auto 12px; }
+
+/* ---------- Contenu long (leçons Kapi : pages + blocs) ---------- */
+
+.lesson-pagecount {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin: 14px 0 -6px;
+}
+
+.lesson-title {
+  font-weight: 900;
+  font-size: 1.2rem;
+  line-height: 1.25;
+  margin: 4px 0 12px;
+}
+
+.lesson-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lesson-block-label {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.lesson-block .content-text {
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.badge-unlocked {
+  margin-top: 10px;
+  display: inline-block;
+  background: var(--amber-soft);
+  color: var(--text);
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border-radius: 999px;
+}
+
+/* ---------- Thèmes colorés (boutique) — surchargent l'accent ---------- */
+:root[data-accent='ocean'] { --accent: #1c6fb0; --accent-ink: #ffffff; --accent-soft: #e0edf7; }
+:root[data-theme='dark'][data-accent='ocean'] { --accent: #4f9fd6; --accent-ink: #08202f; --accent-soft: #14303f; }
+:root[data-accent='corail'] { --accent: #d1553a; --accent-ink: #ffffff; --accent-soft: #fbe4dd; }
+:root[data-theme='dark'][data-accent='corail'] { --accent: #f0785a; --accent-ink: #2a0f08; --accent-soft: #3b241d; }
+:root[data-accent='violet'] { --accent: #7a52c8; --accent-ink: #ffffff; --accent-soft: #ece4f8; }
+:root[data-theme='dark'][data-accent='violet'] { --accent: #a68be6; --accent-ink: #17102a; --accent-soft: #29224a; }
+
+/* ---------- Joker (quiz) ---------- */
+.joker-btn {
+  margin-left: 10px;
+  background: var(--amber-soft);
+  color: var(--text);
+  border: none;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.option.joker-removed {
+  opacity: 0.35;
+  text-decoration: line-through;
+}
+
+/* ---------- CTA boutique (Récompenses) ---------- */
+.shop-cta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  background: var(--amber-soft);
+  border: 1.5px solid var(--amber);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin: 16px 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+}
+.shop-cta-emoji { font-size: 1.5rem; }
+.shop-cta-text { flex: 1; display: flex; flex-direction: column; }
+.shop-cta-text b { font-weight: 900; font-size: 0.98rem; }
+.shop-cta-text small { color: var(--text-muted); font-size: 0.8rem; }
+
+/* ---------- Écran Boutique ---------- */
+.shop-balance {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-hard);
+}
+.shop-coins { font-weight: 900; font-size: 1.4rem; }
+.shop-balance-label { color: var(--text-muted); font-size: 0.85rem; }
+
+.shop-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+
+.shop-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+.shop-emoji { font-size: 1.6rem; }
+.shop-info { flex: 1; min-width: 0; }
+.shop-name { font-weight: 900; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+.shop-count { font-size: 0.72rem; font-weight: 800; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 1px 8px; }
+.shop-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
+
+.shop-buy {
+  border: none;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font: inherit;
+  font-weight: 800;
+  font-size: 0.82rem;
+  border-radius: 999px;
+  padding: 9px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--shadow-hard);
+}
+.shop-buy:active { transform: translateY(3px); box-shadow: none; }
+.shop-buy:disabled { opacity: 0.4; cursor: default; box-shadow: none; }
+.shop-buy.ghost { background: var(--chip); color: var(--text); box-shadow: none; }
+.shop-owned { font-size: 0.8rem; font-weight: 800; color: var(--accent); white-space: nowrap; }

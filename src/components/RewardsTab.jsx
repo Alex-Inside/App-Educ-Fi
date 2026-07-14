@@ -12,6 +12,7 @@ export default function RewardsTab({
   challengeDoneToday,
   onOpenChallenge,
   onClaimChest,
+  onOpenShop,
 }) {
   const streak = getStreak(activeDays)
   const mastery = globalMastery(quizStats)
@@ -64,6 +65,16 @@ export default function RewardsTab({
           <span className="stat-label">maîtrise</span>
         </div>
       </div>
+
+      {/* Boutique */}
+      <button className="shop-cta" onClick={onOpenShop}>
+        <span className="shop-cta-emoji" aria-hidden="true">🛍️</span>
+        <span className="shop-cta-text">
+          <b>Boutique</b>
+          <small>Dépense tes 🪙 {gam.coins} pièces</small>
+        </span>
+        <span aria-hidden="true">→</span>
+      </button>
 
       {/* Défi du jour */}
       <button className={`defi-card ${challengeDoneToday ? 'done' : ''}`} onClick={onOpenChallenge} disabled={challengeDoneToday}>

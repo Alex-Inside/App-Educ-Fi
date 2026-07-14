@@ -5,17 +5,26 @@ import { useState } from 'react'
 // v2 : chaque question remonte son résultat (bonne réponse du premier coup ?)
 // au moteur adaptatif via onDone — c'est lui qui nourrit la maîtrise et les
 // révisions espacées.
-export default function QuizStep({ question, index, total, isLast, onDone }) {
+export default function QuizStep({ question, index, total, isLast, onDone, jokers = 0, onUseJoker }) {
   const [selected, setSelected] = useState(null)
   const [attempts, setAttempts] = useState(0)
+  const [removed, setRemoved] = useState(null) // option masquée par le joker
 
   const answered = selected !== null
   const isCorrect = answered && selected === question.correct
 
   const choose = (i) => {
-    if (answered) return
+    if (answered || i === removed) return
     setSelected(i)
     if (i !== question.correct) setAttempts(attempts + 1)
+  }
+
+  // Joker : masque une mauvaise réponse (pas la bonne), consomme un joker.
+  const playJoker = () => {
+    if (removed !== null || answered || jokers <= 0) return
+    const wrong = question.options.map((_, i) => i).filter((i) => i !== question.correct)
+    setRemoved(wrong[0])
+    onUseJoker?.()
   }
 
   const retry = () => setSelected(null)
@@ -31,6 +40,9 @@ export default function QuizStep({ question, index, total, isLast, onDone }) {
     <>
       <div className="quiz-count">
         Quiz — question {index + 1} sur {total}
+        {!answered && jokers > 0 && removed === null && (
+          <button className="joker-btn" onClick={playJoker}>🃏 Joker (×{jokers})</button>
+        )}
       </div>
       <div className="question">
         <h2>{question.question}</h2>
@@ -40,8 +52,9 @@ export default function QuizStep({ question, index, total, isLast, onDone }) {
             if (answered && i === selected) cls += isCorrect ? ' correct' : ' wrong'
             if (answered && !isCorrect && i === question.correct && attempts >= 2)
               cls += ' reveal'
+            if (i === removed) cls += ' joker-removed'
             return (
-              <button key={i} className={cls} onClick={() => choose(i)} disabled={answered}>
+              <button key={i} className={cls} onClick={() => choose(i)} disabled={answered || i === removed}>
                 {option}
               </button>
             )

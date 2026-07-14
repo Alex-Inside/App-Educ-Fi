@@ -118,6 +118,34 @@ export function chestState({ weekXP = 0, lastChestWeek = null }, now = Date.now(
   return { available, coins, week: wk }
 }
 
+// ---------- Boutique (dépense de pièces — jamais d'argent réel) ----------
+
+export const SHOP = [
+  { id: 'xpboost', emoji: '⚡', name: 'Double XP · 24 h', desc: 'Tous tes gains d’XP comptent double pendant 24 heures.', price: 120, kind: 'boost' },
+  { id: 'joker', emoji: '🃏', name: 'Joker de quiz', desc: 'Élimine une mauvaise réponse pendant un quiz.', price: 80, kind: 'stack', field: 'jokers' },
+  { id: 'freeze', emoji: '🧊', name: 'Gel de série', desc: 'Protège ta série si tu sautes un jour.', price: 100, kind: 'stack', field: 'freezes' },
+  { id: 'ocean', emoji: '🌊', name: 'Thème Océan', desc: 'Habille l’app en bleu profond.', price: 200, kind: 'theme', accent: 'ocean' },
+  { id: 'corail', emoji: '🪸', name: 'Thème Corail', desc: 'Une ambiance corail chaleureuse.', price: 200, kind: 'theme', accent: 'corail' },
+  { id: 'violet', emoji: '🔮', name: 'Thème Améthyste', desc: 'Un violet doux et élégant.', price: 200, kind: 'theme', accent: 'violet' },
+]
+
+export function isXpBoostActive(gam, now = Date.now()) {
+  return !!gam.xpBoostUntil && now < gam.xpBoostUntil
+}
+
+// Gel de série : comble un trou d'UN jour (hier manquant, avant-hier présent,
+// aujourd'hui pas encore actif) si un gel est disponible. Retourne le jour à
+// combler, ou null.
+export function pendingFreeze(activeDays, freezes, now = Date.now()) {
+  if (!freezes || freezes <= 0) return null
+  const has = new Set(activeDays)
+  const today = dayKey(now)
+  const y = dayKey(now - 86400000)
+  const dby = dayKey(now - 2 * 86400000)
+  if (!has.has(today) && !has.has(y) && has.has(dby)) return y
+  return null
+}
+
 // ---------- Ligue (émulation locale, motivationnelle) ----------
 const PEERS = ['Naïm', 'Chloé', 'Yanis', 'Léa', 'Sacha', 'Inès', 'Tom', 'Maya', 'Hugo']
 
