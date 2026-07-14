@@ -8,6 +8,9 @@ import Tools from './components/Tools.jsx'
 import Glossaire from './components/Glossaire.jsx'
 import ActionPlan from './components/ActionPlan.jsx'
 import MomentScreen from './components/MomentScreen.jsx'
+import ParcoursTab from './components/ParcoursTab.jsx'
+import RewardsTab from './components/RewardsTab.jsx'
+import TabBar from './components/TabBar.jsx'
 import { loadState, saveState, clearState, exportState, parseImportedState } from './lib/storage.js'
 import { recordQuizResult, touchActivity } from './lib/adaptive.js'
 import { ACTIONS } from './data/actions.js'
@@ -26,9 +29,16 @@ export default function App() {
   const [actionsDone, setActionsDone] = useState(state?.actionsDone ?? [])
   const [settings, setSettings] = useState(state?.settings ?? { theme: 'auto' })
 
-  // view : null = dashboard · { moduleId } = module · { moduleId, subId } =
-  // sous-module · { page: 'tools' | 'glossaire' } = écrans annexes
+  // view : null = écran racine (piloté par `tab`) · { moduleId } = module ·
+  // { moduleId, subId } = sous-module · { page: … } = écrans annexes.
   const [view, setView] = useState(null)
+  // Onglet racine actif quand view === null : accueil · parcours · recompenses.
+  const [tab, setTab] = useState('accueil')
+
+  const goTab = (t) => {
+    setView(null)
+    setTab(t)
+  }
 
   useEffect(() => {
     saveState({ profile, completedSubs, coachHistory, quizStats, activeDays, actionsDone, settings })
@@ -164,6 +174,19 @@ export default function App() {
         onBack={() => setView(null)}
       />
     )
+  } else if (tab === 'parcours') {
+    screen = (
+      <ParcoursTab
+        profile={profile}
+        completedSubs={completedSubs}
+        onOpenSub={openSub}
+        onOpenMoment={(momentId) => setView({ page: 'moment', momentId })}
+      />
+    )
+  } else if (tab === 'recompenses') {
+    screen = (
+      <RewardsTab completedSubs={completedSubs} quizStats={quizStats} activeDays={activeDays} />
+    )
   } else {
     screen = (
       <Dashboard
@@ -175,12 +198,11 @@ export default function App() {
         actionsPending={completedSubs.filter((s) => ACTIONS[s] && !actionsDone.includes(s)).length}
         theme={settings.theme}
         onCycleTheme={cycleTheme}
-        onOpenModule={(moduleId) => setView({ moduleId })}
         onOpenSub={openSub}
+        onOpenParcours={() => goTab('parcours')}
         onOpenTools={() => setView({ page: 'tools' })}
         onOpenGlossaire={() => setView({ page: 'glossaire' })}
         onOpenActions={() => setView({ page: 'actions' })}
-        onOpenMoment={(momentId) => setView({ page: 'moment', momentId })}
         onExport={handleExport}
         onImport={handleImport}
         onRestart={restart}
@@ -188,8 +210,11 @@ export default function App() {
     )
   }
 
+  // La barre d'onglets n'apparaît que sur les écrans racines (pas en leçon).
+  const showTabBar = profile && view === null
+
   return (
-    <div className="app">
+    <div className={`app ${showTabBar ? 'has-tabbar' : ''}`}>
       <main id="main">{screen}</main>
       {profile && (
         <CoachDrawer
@@ -200,6 +225,7 @@ export default function App() {
           onOpenSub={openSub}
         />
       )}
+      {showTabBar && <TabBar active={tab} onChange={goTab} />}
     </div>
   )
 }

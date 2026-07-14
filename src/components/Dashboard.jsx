@@ -7,8 +7,6 @@ import {
   globalMastery,
 } from '../lib/adaptive.js'
 import { getSousModule } from '../data/curriculum.js'
-import { MOMENTS, getMomentProgress } from '../data/moments.js'
-import ProgressMap from './ProgressMap.jsx'
 import KapiMascot from './KapiMascot.jsx'
 import { BRAND } from '../brand.js'
 
@@ -30,12 +28,11 @@ export default function Dashboard({
   actionsPending,
   theme,
   onCycleTheme,
-  onOpenModule,
   onOpenSub,
+  onOpenParcours,
   onOpenTools,
   onOpenGlossaire,
   onOpenActions,
-  onOpenMoment,
   onExport,
   onImport,
   onRestart,
@@ -118,21 +115,14 @@ export default function Dashboard({
         </div>
       )}
 
-      <div className="map-title">C'est le moment ? Entre par ce que tu vis</div>
-      <div className="moments-strip" role="list">
-        {MOMENTS.map((m) => {
-          const { done, total } = getMomentProgress(m, completedSubs)
-          return (
-            <button key={m.id} role="listitem" className="moment-chip" onClick={() => onOpenMoment(m.id)}>
-              <span className="moment-chip-emoji" aria-hidden="true">{m.emoji}</span>
-              <span className="moment-chip-title">{m.titre}</span>
-              <span className={`moment-chip-count ${done === total ? 'complete' : ''}`}>
-                {done === total ? '✓' : `${done}/${total}`}
-              </span>
-            </button>
-          )
-        })}
-      </div>
+      <button className="parcours-cta" onClick={onOpenParcours}>
+        <span className="parcours-cta-emoji" aria-hidden="true">🗺️</span>
+        <span className="parcours-cta-text">
+          <b>Voir tout mon parcours</b>
+          <small>9 modules pas à pas, ou par étape de vie</small>
+        </span>
+        <span aria-hidden="true">→</span>
+      </button>
 
       <div className="nav-cards nav-cards-3">
         <button className="nav-card" onClick={onOpenActions}>
@@ -157,13 +147,6 @@ export default function Dashboard({
           <span className="nav-card-desc">Le jargon, traduit</span>
         </button>
       </div>
-
-      <ProgressMap
-        profile={profile}
-        completedSubs={completedSubs}
-        quizStats={quizStats}
-        onSelect={onOpenModule}
-      />
 
       <div className="dash-footer">
         <button className="btn btn-ghost" onClick={onExport}>
