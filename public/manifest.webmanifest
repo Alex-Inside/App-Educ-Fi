@@ -1,13 +1,13 @@
 {
-  "name": "FinPath — Ton coach finances perso",
-  "short_name": "FinPath",
-  "description": "Éducation financière gratuite pour jeunes adultes : budget, épargne, crédit, investissement. Sans pub, sans compte, sans démarchage.",
+  "name": "Éducsou — éduque tes sous",
+  "short_name": "Éducsou",
+  "description": "Éducation financière gratuite et ludique : budget, épargne, crédit, investissement. Sans pub, sans compte, sans démarchage.",
   "lang": "fr",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
-  "background_color": "#fafaf8",
-  "theme_color": "#534ab7",
+  "background_color": "#faf6ef",
+  "theme_color": "#1f6f50",
   "icons": [
     {
       "src": "icon.svg",

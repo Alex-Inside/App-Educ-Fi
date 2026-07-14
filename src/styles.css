@@ -1,54 +1,80 @@
+/* ============================================================
+   Identité « Kapi » (direction 1a) — chaleureuse, arrondie.
+   Palette : crème, vert émeraude, ambre, corail. Police Nunito.
+   ============================================================ */
 :root {
-  --accent: #534ab7;
-  --accent-soft: #eceafb;
-  --success: #1d9e75;
-  --success-soft: #e2f5ee;
-  --danger: #d6455a;
-  --danger-soft: #fdecef;
-  --danger-border: #f0b8c1;
-  --bg: #fafaf8;
-  --text: #1a1a2e;
-  --text-muted: #6b6b80;
+  --accent: #1f6f50;          /* vert émeraude — action principale */
+  --accent-soft: #e4f0ea;     /* vert très clair — fonds de chips/cartes */
+  --accent-ink: #ffffff;      /* texte sur vert */
+  --amber: #f2a93b;           /* ambre — mascotte, pièces, accents */
+  --amber-soft: #fbeccd;
+  --coral: #e8674a;           /* corail — chaleur, alertes douces */
+  --coral-soft: #fbe3dd;
+  --success: #1f6f50;
+  --success-soft: #e4f0ea;
+  --danger: #d1503a;
+  --danger-soft: #fbe3dd;
+  --danger-border: #f0b8a9;
+  --bg: #faf6ef;              /* crème */
+  --text: #332e24;            /* encre chaude */
+  --text-muted: #8a8172;
   --card: #ffffff;
-  --border: #e8e6f2;
-  --overlay: rgba(26, 26, 46, 0.45);
-  --radius: 16px;
+  --border: #ede5d6;
+  --chip: #f3ecdd;
+  --overlay: rgba(51, 46, 36, 0.45);
+  --shadow-hard: 0 4px 0 rgba(51, 46, 36, 0.15);
+  --radius: 20px;
+  --radius-sm: 14px;
 }
 
 /* Thème sombre : suit le système par défaut… */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --accent: #8d84e8;
-    --accent-soft: #2c2850;
-    --success: #3ec89a;
-    --success-soft: #123528;
-    --danger: #f07082;
-    --danger-soft: #3b1a20;
-    --danger-border: #5c2833;
-    --bg: #12121c;
-    --text: #ececf4;
-    --text-muted: #9c9cb2;
-    --card: #1c1c2a;
-    --border: #2c2c40;
+    --accent: #3fa57c;
+    --accent-soft: #22352b;
+    --accent-ink: #10281e;
+    --amber: #f2a93b;
+    --amber-soft: #3a3016;
+    --coral: #f08064;
+    --coral-soft: #3b241d;
+    --success: #3fa57c;
+    --success-soft: #22352b;
+    --danger: #f08064;
+    --danger-soft: #3b241d;
+    --danger-border: #5c3227;
+    --bg: #211e17;
+    --text: #f5efe3;
+    --text-muted: #a79c87;
+    --card: #2c2820;
+    --border: #3a362b;
+    --chip: #353023;
     --overlay: rgba(0, 0, 0, 0.6);
+    --shadow-hard: 0 4px 0 rgba(0, 0, 0, 0.4);
   }
 }
 
 /* …et peut être forcé par le bouton de thème (data-theme sur <html>). */
 :root[data-theme='dark'] {
-  --accent: #8d84e8;
-  --accent-soft: #2c2850;
-  --success: #3ec89a;
-  --success-soft: #123528;
-  --danger: #f07082;
-  --danger-soft: #3b1a20;
-  --danger-border: #5c2833;
-  --bg: #12121c;
-  --text: #ececf4;
-  --text-muted: #9c9cb2;
-  --card: #1c1c2a;
-  --border: #2c2c40;
+  --accent: #3fa57c;
+  --accent-soft: #22352b;
+  --accent-ink: #10281e;
+  --amber: #f2a93b;
+  --amber-soft: #3a3016;
+  --coral: #f08064;
+  --coral-soft: #3b241d;
+  --success: #3fa57c;
+  --success-soft: #22352b;
+  --danger: #f08064;
+  --danger-soft: #3b241d;
+  --danger-border: #5c3227;
+  --bg: #211e17;
+  --text: #f5efe3;
+  --text-muted: #a79c87;
+  --card: #2c2820;
+  --border: #3a362b;
+  --chip: #353023;
   --overlay: rgba(0, 0, 0, 0.6);
+  --shadow-hard: 0 4px 0 rgba(0, 0, 0, 0.4);
 }
 
 * {
@@ -59,8 +85,22 @@
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Mascotte Kapi */
+.kapi {
+  display: block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .kapi-bob {
+    animation: kapi-bob 2.6s ease-in-out infinite;
+  }
+  @keyframes kapi-bob {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-6px) rotate(2deg); }
+  }
 }
 
 #root {
@@ -106,29 +146,36 @@ body {
 .btn {
   display: block;
   width: 100%;
-  padding: 16px;
+  padding: 15px;
   border: none;
-  border-radius: var(--radius);
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 1.02rem;
+  font-weight: 800;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.15s ease;
-}
-
-.btn:active {
-  transform: scale(0.98);
+  transition: transform 0.08s ease, box-shadow 0.12s ease;
 }
 
 .btn-primary {
   background: var(--accent);
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(83, 74, 183, 0.35);
+  color: var(--accent-ink);
+  box-shadow: var(--shadow-hard);
+}
+
+.btn-primary:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(51, 46, 36, 0.15);
 }
 
 .btn-ghost {
   background: none;
   color: var(--text-muted);
-  font-weight: 500;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.btn-ghost:active {
+  transform: scale(0.98);
 }
 
 /* ---------- Écran d'accueil ---------- */
@@ -1521,4 +1568,77 @@ button.module-card {
 
 .moment-action-state.ok {
   color: var(--success);
+}
+
+/* ---------- Kapi : ajustements identité ---------- */
+
+.welcome h1 {
+  font-weight: 900;
+  font-size: 2.4rem;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
+.welcome-mascot {
+  margin: 0 auto 4px;
+}
+
+.welcome-tagline {
+  font-weight: 800;
+  color: var(--text);
+  font-size: 1.05rem;
+  margin-top: -6px;
+}
+
+.welcome .pill {
+  background: var(--chip);
+  color: var(--text);
+}
+
+/* Titres en Nunito 900 */
+.question h2,
+.result-header h2,
+.reco-title,
+.module-header-title,
+.stat-value {
+  font-weight: 900;
+}
+
+.dash-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+.profile-badge,
+.dash-profile {
+  background: var(--chip);
+  color: var(--text);
+}
+
+.profile-badge {
+  font-weight: 800;
+}
+
+/* Chips de moments : accent chaleureux */
+.moment-chip-emoji {
+  filter: saturate(1.05);
+}
+
+/* Cartes : coin plus rond, bord chaud (déjà via --border/--radius) */
+.content-card,
+.stat-card,
+.nav-card,
+.reco-card,
+.action-card,
+.glossaire-item,
+.module-card {
+  border-width: 1.5px;
+}
+
+/* Anneau/points d'accent ambre pour la gamification à venir */
+.stat-card .stat-value {
+  color: var(--text);
 }

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { getModule, getSousModule } from '../data/curriculum.js'
 import { getCoachGreeting, getCoachReply, getCoachSuggestions } from '../lib/coach.js'
+import { BRAND } from '../brand.js'
 
 // Panneau de chat flottant, contextuel au module actif (spec <CoachDrawer>).
 // L'historique vit dans App (persisté) ; la génération des réponses est
@@ -70,7 +71,7 @@ export default function CoachDrawer({ profile, moduleId, history, setHistory, on
           >
             <div className="coach-header">
               <div>
-                <div className="coach-title">💬 Coach FinPath</div>
+                <div className="coach-title">💬 {BRAND.mascot}, ton coach</div>
                 <div className="coach-context">
                   {module ? `Contexte : module ${module.id} · ${module.titre}` : 'Coach libre'}
                 </div>

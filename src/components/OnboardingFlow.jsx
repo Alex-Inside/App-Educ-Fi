@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { QUESTIONS } from '../data/questions.js'
 import { computeProfile } from '../lib/scoring.js'
 import ProgressMap from './ProgressMap.jsx'
+import KapiMascot from './KapiMascot.jsx'
+import { BRAND } from '../brand.js'
 
 // Onboarding complet : accueil → 5 questions → écran résultat avec parcours.
 // onFinished(profile, moduleId) : moduleId = module à ouvrir directement,
@@ -84,20 +86,20 @@ export default function OnboardingFlow({ onFinished }) {
 function WelcomeScreen({ onStart }) {
   return (
     <div className="welcome">
-      <span className="logo">🧭</span>
-      <h1>
-        Fin<span>Path</span>
-      </h1>
+      <KapiMascot size={104} bob className="welcome-mascot" />
+      <h1>{BRAND.name}</h1>
+      <p className="welcome-tagline">{BRAND.tagline}</p>
       <p>
-        Ton coach finances perso, de « c'est quoi un découvert ? » à tes premiers
-        investissements. 5 questions pour construire ton parcours sur mesure.
+        Salut, moi c'est {BRAND.mascot} 👋 De « c'est quoi un découvert ? » à tes
+        premiers placements — on avance ensemble, sans jargon. 5 questions pour
+        construire ton parcours sur mesure.
       </p>
       <div className="pills">
         <span className="pill">💸 Budget</span>
         <span className="pill">🐷 Épargne</span>
         <span className="pill">💳 Crédit</span>
-        <span className="pill">📊 Investir</span>
-        <span className="pill">🏡 Se projeter</span>
+        <span className="pill">📈 Investir</span>
+        <span className="pill">🛡️ Arnaques</span>
       </div>
       <button className="btn btn-primary" onClick={onStart}>
         C'est parti — 2 minutes

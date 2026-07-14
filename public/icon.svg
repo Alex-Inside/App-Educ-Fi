@@ -1,6 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#534ab7"/>
-  <circle cx="256" cy="256" r="150" fill="none" stroke="#ffffff" stroke-width="26"/>
-  <polygon points="256,140 300,256 256,372 212,256" fill="#ffffff"/>
-  <circle cx="256" cy="256" r="30" fill="#534ab7"/>
+  <rect width="512" height="512" rx="120" fill="#1F6F50"/>
+  <ellipse cx="256" cy="272" rx="170" ry="170" fill="#D88C1B"/>
+  <circle cx="256" cy="256" r="170" fill="#F2A93B"/>
+  <circle cx="256" cy="256" r="170" fill="none" stroke="#D88C1B" stroke-width="13"/>
+  <circle cx="256" cy="256" r="132" fill="none" stroke="#F7C173" stroke-width="10"/>
+  <circle cx="205" cy="234" r="19" fill="#5A3A08"/>
+  <circle cx="307" cy="234" r="19" fill="#5A3A08"/>
+  <path d="M188 296 Q256 356 324 296" fill="none" stroke="#5A3A08" stroke-width="20" stroke-linecap="round"/>
 </svg>

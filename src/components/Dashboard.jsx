@@ -9,6 +9,8 @@ import {
 import { getSousModule } from '../data/curriculum.js'
 import { MOMENTS, getMomentProgress } from '../data/moments.js'
 import ProgressMap from './ProgressMap.jsx'
+import KapiMascot from './KapiMascot.jsx'
+import { BRAND } from '../brand.js'
 
 const KIND_LABEL = {
   revision: '🔄 Révision conseillée',
@@ -50,7 +52,9 @@ export default function Dashboard({
   return (
     <>
       <div className="dash-header">
-        <span className="dash-logo">🧭 FinPath</span>
+        <span className="dash-logo">
+          <KapiMascot size={30} /> {BRAND.name}
+        </span>
         <div className="dash-header-right">
           <button
             className="theme-toggle"

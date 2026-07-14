@@ -9,6 +9,7 @@
 // suggestions contextuelles au module, ton adapté au profil.
 
 import { getModule } from '../data/curriculum.js'
+import { BRAND } from '../brand.js'
 
 // Chaque sujet : mots-clés, réponse, et sous-module à approfondir.
 const TOPICS = [
@@ -212,7 +213,7 @@ export function getCoachGreeting({ profile, moduleId }) {
       : profile?.profil === 'avance'
         ? ' On peut aller dans le détail si tu veux.'
         : ''
-  return `Salut ! 👋 Je suis ton coach FinPath. ${ctx}${ton}`
+  return `Salut ! 👋 Moi c'est ${BRAND.mascot}, ton coach. ${ctx}${ton}`
 }
 
 // Choisit le sujet au meilleur score : nombre de mots-clés présents, puis
