@@ -117,13 +117,13 @@ const TOPICS = [
   },
   {
     keywords: ['mutuelle', 'complementaire sante', 'secu', 'securite sociale'],
-    sub: '4.1',
+    sub: null,
     reply:
       "La Sécu rembourse une partie de tes frais de santé, la mutuelle (complémentaire) prend le relais. À savoir : en CDI, ta mutuelle d'entreprise est obligatoire et payée au moins à 50 % par l'employeur. Étudiant ou jeune actif, choisis selon tes besoins réels (optique, dentaire) plutôt que la formule la plus chère.",
   },
   {
     keywords: ['assurance habitation', 'responsabilite civile', 'coloc', 'assurance auto', 'jeune conducteur', 'bonus', 'franchise'],
-    sub: '4.2',
+    sub: null,
     reply:
       "L'assurance habitation est obligatoire pour tout locataire (attestation exigée à la signature) et inclut la responsabilité civile, qui couvre les dommages que tu causes aux autres. Côté auto : la surprime jeune conducteur peut doubler la facture la 1re année, mais elle fond vite (et la conduite accompagnée la réduit). Compare toujours garanties ET franchises, pas seulement le prix.",
   },

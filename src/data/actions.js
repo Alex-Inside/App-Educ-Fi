@@ -105,32 +105,6 @@ export const ACTIONS = {
     type: 'perso',
   },
 
-  // ---------- Module 4 · S'assurer au quotidien ----------
-  '4.1': {
-    titre: 'Vérifie tes garanties de mutuelle',
-    detail: 'Retrouve ta carte de tiers payant ou ton espace adhérent : que couvrent tes postes optique et dentaire ? Es-tu encore sur la mutuelle de tes parents, et jusqu’à quand ?',
-    duree: '10 min',
-    type: 'perso',
-  },
-  '4.2': {
-    titre: 'Retrouve ton attestation habitation et ta franchise',
-    detail: 'Deux infos à connaître avant le sinistre, pas après : où est ton attestation (exigée par le bailleur), et combien resterait à ta charge en cas de pépin.',
-    duree: '10 min',
-    type: 'perso',
-  },
-  '4.3': {
-    titre: 'Télécharge ton relevé d’information auto',
-    detail: 'Disponible dans ton espace assureur : il contient ton bonus-malus, la donnée qui te suit d’assureur en assureur. À connaître avant tout devis.',
-    duree: '5 min',
-    type: 'perso',
-  },
-  '4.4': {
-    titre: 'Chasse le doublon d’assurance',
-    detail: 'Liste tes contrats (habitation, mobile, carte bancaire, mutuelle, école…) : la responsabilité civile et l’assurance mobile y sont très souvent en double. Un doublon = une résiliation possible.',
-    duree: '15 min',
-    type: 'perso',
-  },
-
   // ---------- Module 5 · Investir : premiers pas ----------
   '5.1': {
     titre: 'Note ton horizon de placement',

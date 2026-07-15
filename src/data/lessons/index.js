@@ -6,9 +6,22 @@
 import { MODULE1_LESSONS } from './module1.js'
 import { MODULE2_LESSONS } from './module2.js'
 import { MODULE3_LESSONS } from './module3.js'
+import { MODULE5_LESSONS } from './module5.js'
+import { MODULE7_LESSONS } from './module7.js'
+import { MODULE8_LESSONS } from './module8.js'
+import { MODULE9_LESSONS } from './module9.js'
 
 // Modules au format long. On étend module par module.
-const RAW = { ...MODULE1_LESSONS, ...MODULE2_LESSONS, ...MODULE3_LESSONS }
+// (Le module « S'assurer » — ex-module 4 — a été retiré du parcours.)
+const RAW = {
+  ...MODULE1_LESSONS,
+  ...MODULE2_LESSONS,
+  ...MODULE3_LESSONS,
+  ...MODULE5_LESSONS,
+  ...MODULE7_LESSONS,
+  ...MODULE8_LESSONS,
+  ...MODULE9_LESSONS,
+}
 
 function adaptQuiz(questions) {
   return questions.map((q) => ({

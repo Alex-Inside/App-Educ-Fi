@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getSousModule } from '../data/curriculum.js'
+import { getSousModule, getModuleNumber } from '../data/curriculum.js'
 import { SUBMODULE_CONTENT } from '../data/content/index.js'
 import { getRichLesson } from '../data/lessons/index.js'
 import { getAction, DISCLAIMER } from '../data/actions.js'
@@ -178,7 +178,7 @@ export default function SubModuleScreen({
     <>
       <div className="module-header">
         <button className="back-link" onClick={onBack}>
-          ← Module {module.id} · {module.titre}
+          ← Module {getModuleNumber(module.id)} · {module.titre}
         </button>
         <span className="module-header-title">
           {sousModule.id} {sousModule.titre}

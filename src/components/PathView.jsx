@@ -1,4 +1,4 @@
-import { MODULES } from '../data/curriculum.js'
+import { MODULES, getModuleNumber } from '../data/curriculum.js'
 import { getModuleProgress } from '../lib/progression.js'
 import KapiMascot from './KapiMascot.jsx'
 
@@ -24,10 +24,11 @@ export default function PathView({ completedSubs, onOpenSub }) {
 
   return (
     <div className="path2">
-      <p className="path2-intro">De ton premier budget à ta retraite — les 9 modules dans l’ordre.</p>
+      <p className="path2-intro">De ton premier budget à ta retraite — les modules dans l’ordre.</p>
 
       {MODULES.map((module) => {
         const { done, total } = getModuleProgress(module.id, completedSubs)
+        const num = getModuleNumber(module.id)
         const isDoneModule = done === total
         const isCurrent = module.id === currentModuleId
         const isUpcoming = module.id > currentModuleId
@@ -42,7 +43,7 @@ export default function PathView({ completedSubs, onOpenSub }) {
             >
               <span className="unit2-node done"><span className="unit2-check">✓</span></span>
               <span className="unit2-banner-text">
-                <b>Module {module.id} · {module.titre}</b>
+                <b>Module {num} · {module.titre}</b>
                 <small>Terminé — revoir</small>
               </span>
             </button>
@@ -58,7 +59,7 @@ export default function PathView({ completedSubs, onOpenSub }) {
                 <span className="unit2-node locked"><Lock /></span>
                 <span className="unit2-banner-text">
                   <b>{module.titre}</b>
-                  <small>Module {module.id} · à débloquer</small>
+                  <small>Module {num} · à débloquer</small>
                 </span>
               </button>
             </div>
@@ -69,7 +70,7 @@ export default function PathView({ completedSubs, onOpenSub }) {
         const nextIdx = module.sousModules.findIndex((s) => !completedSubs.includes(s.id))
         return (
           <section key={module.id} className="unit2">
-            <div className="unit2-chip">MODULE {module.id} · {module.titre.toUpperCase()} — EN COURS</div>
+            <div className="unit2-chip">MODULE {num} · {module.titre.toUpperCase()} — EN COURS</div>
             {module.sousModules.map((sub, i) => {
               const subDone = completedSubs.includes(sub.id)
               const isNext = i === nextIdx

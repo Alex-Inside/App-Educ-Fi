@@ -1,4 +1,4 @@
-import { getModule } from '../data/curriculum.js'
+import { getModule, getModuleNumber } from '../data/curriculum.js'
 import { getModuleProgress } from '../lib/progression.js'
 
 // Page d'un module : ses sous-modules et leur état, navigation libre.
@@ -16,7 +16,7 @@ export default function ModuleHome({ moduleId, completedSubs, onOpenSub, onBack 
           ← Parcours
         </button>
         <span className="module-header-title">
-          {module.emoji} Module {module.id} · {module.titre}
+          {module.emoji} Module {getModuleNumber(moduleId)} · {module.titre}
         </span>
         <span className="niveau-chip">{module.niveau}</span>
       </div>

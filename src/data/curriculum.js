@@ -45,19 +45,6 @@ export const MODULES = [
     ],
   },
   {
-    id: 4,
-    emoji: '🧯',
-    titre: 'S’assurer au quotidien',
-    niveau: 'Pratique',
-    description: 'Mutuelle, habitation, responsabilité civile, auto',
-    sousModules: [
-      { id: '4.1', titre: 'La mutuelle santé', resume: 'Fin du rattachement parental, choisir sa complémentaire' },
-      { id: '4.2', titre: 'Habitation et responsabilité civile', resume: 'Obligatoire en location, la coloc, ce que ça couvre' },
-      { id: '4.3', titre: 'L’assurance auto jeune conducteur', resume: 'Tiers ou tous risques, surprime, bonus-malus' },
-      { id: '4.4', titre: 'Choisir, comparer, résilier', resume: 'Doublons, franchises, exclusions, loi Hamon' },
-    ],
-  },
-  {
     id: 5,
     emoji: '📊',
     titre: 'Investir : premiers pas',
@@ -129,6 +116,13 @@ export const TOTAL_SOUS_MODULES = MODULES.reduce((n, m) => n + m.sousModules.len
 
 export function getModule(moduleId) {
   return MODULES.find((m) => m.id === moduleId)
+}
+
+// Numéro affiché à l'utilisateur = position dans le parcours (1..N).
+// Découplé de l'`id` interne (qui peut comporter des trous après suppression
+// d'un module) pour garder une numérotation contiguë à l'écran.
+export function getModuleNumber(moduleId) {
+  return MODULES.findIndex((m) => m.id === moduleId) + 1
 }
 
 export function getSousModule(subId) {
