@@ -37,6 +37,8 @@ export default function Dashboard({
   onOpenTools,
   onOpenGlossaire,
   onOpenActions,
+  onOpenAbout,
+  onOpenComplete,
   onExport,
   onImport,
   onRestart,
@@ -87,11 +89,11 @@ export default function Dashboard({
       </div>
 
       {done === total ? (
-        <div className="result-header">
+        <button className="result-header result-header-btn" onClick={onOpenComplete}>
           <div className="check">🏆</div>
           <h2>Parcours terminé !</h2>
-          <p>Les {total} sous-modules sont complétés. Tes finances te disent merci.</p>
-        </div>
+          <p>Les {total} sous-modules sont complétés. Voir mes attestations →</p>
+        </button>
       ) : (
         <div className="stats-row">
           <div className="stat-card">
@@ -151,7 +153,7 @@ export default function Dashboard({
         <span className="parcours-cta-emoji" aria-hidden="true">🗺️</span>
         <span className="parcours-cta-text">
           <b>Voir tout mon parcours</b>
-          <small>8 modules pas à pas, ou par étape de vie</small>
+          <small>9 modules pas à pas, ou par étape de vie</small>
         </span>
         <span aria-hidden="true">→</span>
       </button>
@@ -200,6 +202,9 @@ export default function Dashboard({
         />
         <button className="btn btn-ghost" onClick={onRestart}>
           Tout réinitialiser
+        </button>
+        <button className="btn btn-ghost" onClick={onOpenAbout}>
+          ℹ️ À propos & mentions légales
         </button>
         <p className="privacy-note">
           🔒 Tout reste sur ton appareil : pas de compte, pas de pub, rien à vendre.

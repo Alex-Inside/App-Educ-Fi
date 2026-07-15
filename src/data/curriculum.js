@@ -1,4 +1,4 @@
-// Le programme FinPath : 9 modules, 38 sous-modules, tous accessibles.
+// Le programme Édufi : 9 modules, 38 sous-modules, tous accessibles.
 // Le profil détecté à l'onboarding ne verrouille rien : il recommande un point
 // de départ et adapte le ton du coach.
 // Chaque sous-module suit 4 étapes : Prise de connaissance → Cas concret →
@@ -69,6 +69,20 @@ export const MODULES = [
       { id: '6.2', titre: 'Les SCPI', resume: 'L’immobilier sans acheter : la pierre-papier' },
       { id: '6.3', titre: 'L’or et les valeurs refuges', resume: 'Protéger plutôt que faire fructifier' },
       { id: '6.4', titre: 'Les cryptomonnaies', resume: 'Comprendre avant de toucher : volatilité, sécurité' },
+    ],
+  },
+  {
+    id: 4,
+    emoji: '💼',
+    titre: 'L’épargne salariale',
+    niveau: 'Intermédiaire',
+    description: 'Intéressement, participation, PEE, abondement, PER collectif',
+    sousModules: [
+      { id: '4.1', titre: 'Intéressement et participation', resume: 'La part des résultats que ton entreprise partage' },
+      { id: '4.2', titre: 'Le Plan d’Épargne Entreprise (PEE)', resume: 'L’enveloppe pour placer ta prime, bloquée 5 ans' },
+      { id: '4.3', titre: 'L’abondement', resume: 'Quand l’employeur ajoute de l’argent au tien' },
+      { id: '4.4', titre: 'Le PER collectif', resume: 'Préparer sa retraite via son entreprise' },
+      { id: '4.5', titre: 'Percevoir ou placer : bien choisir', resume: 'Fiscalité, déblocages et bons réflexes' },
     ],
   },
   {

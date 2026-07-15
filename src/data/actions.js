@@ -105,6 +105,38 @@ export const ACTIONS = {
     type: 'perso',
   },
 
+  // ---------- Module 4 · L'épargne salariale ----------
+  '4.1': {
+    titre: 'Cherche ton accord d’intéressement / participation',
+    detail: 'Sur ton intranet, dans la BDESE ou en demandant aux RH : ton entreprise a-t-elle un accord d’intéressement et/ou de participation ? Savoir ce à quoi tu as droit est le premier pas.',
+    duree: '10 min',
+    type: 'perso',
+  },
+  '4.2': {
+    titre: 'Repère le règlement de ton PEE',
+    detail: 'S’il existe, retrouve la liste des fonds (FCPE) proposés et leurs frais. Juste pour voir comment ton épargne salariale est investie — aucune décision à prendre aujourd’hui.',
+    duree: '10 min',
+    type: 'perso',
+  },
+  '4.3': {
+    titre: 'Demande le taux et le plafond d’abondement',
+    detail: 'À tes RH : y a-t-il un abondement, à quel taux, jusqu’à quel plafond ? C’est de l’argent auquel tu as peut-être droit sans le savoir — la question ne coûte rien.',
+    duree: '5 min',
+    type: 'perso',
+  },
+  '4.4': {
+    titre: 'Fais l’inventaire de ton épargne retraite d’entreprise',
+    detail: 'As-tu un PER collectif (ou ancien PERCO) ? Combien y a-t-il dessus, et comment est-ce investi ? Beaucoup d’avoirs dorment, oubliés et mal pilotés.',
+    duree: '10 min',
+    type: 'perso',
+  },
+  '4.5': {
+    titre: 'Note les échéances et cas de déblocage qui te concernent',
+    detail: 'Écris ce qui est bloqué et jusqu’à quand (PEE 5 ans, PER retraite), et repère le ou les cas de déblocage anticipé qui pourraient coller à un de tes projets.',
+    duree: '10 min',
+    type: 'perso',
+  },
+
   // ---------- Module 5 · Investir : premiers pas ----------
   '5.1': {
     titre: 'Note ton horizon de placement',

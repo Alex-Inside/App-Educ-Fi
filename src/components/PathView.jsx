@@ -18,20 +18,26 @@ function Lock() {
 
 export default function PathView({ completedSubs, onOpenSub }) {
   // Module « en cours » = premier module non entièrement terminé.
-  const currentModuleId =
-    MODULES.find((m) => getModuleProgress(m.id, completedSubs).done < m.sousModules.length)?.id ??
-    MODULES[MODULES.length - 1].id
+  // On raisonne en POSITION dans le parcours (index), pas en `id` : les ids
+  // peuvent ne pas être ordonnés (ex. « Épargne salariale » id 4 inséré après
+  // « Diversifier » id 6), alors que l'ordre d'affichage suit le tableau.
+  const currentIndex = (() => {
+    const i = MODULES.findIndex(
+      (m) => getModuleProgress(m.id, completedSubs).done < m.sousModules.length,
+    )
+    return i === -1 ? MODULES.length - 1 : i
+  })()
 
   return (
     <div className="path2">
       <p className="path2-intro">De ton premier budget à ta retraite — les modules dans l’ordre.</p>
 
-      {MODULES.map((module) => {
+      {MODULES.map((module, idx) => {
         const { done, total } = getModuleProgress(module.id, completedSubs)
         const num = getModuleNumber(module.id)
         const isDoneModule = done === total
-        const isCurrent = module.id === currentModuleId
-        const isUpcoming = module.id > currentModuleId
+        const isCurrent = idx === currentIndex
+        const isUpcoming = idx > currentIndex
 
         // Module terminé : bannière compacte cochée.
         if (isDoneModule && !isCurrent) {

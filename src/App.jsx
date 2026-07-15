@@ -1,21 +1,28 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
+// Écrans du premier rendu : chargés d'emblée.
 import OnboardingFlow from './components/OnboardingFlow.jsx'
 import Dashboard from './components/Dashboard.jsx'
-import ModuleHome from './components/ModuleHome.jsx'
-import SubModuleScreen from './components/SubModuleScreen.jsx'
 import CoachDrawer from './components/CoachDrawer.jsx'
-import Tools from './components/Tools.jsx'
-import Glossaire from './components/Glossaire.jsx'
-import ActionPlan from './components/ActionPlan.jsx'
-import MomentScreen from './components/MomentScreen.jsx'
-import ParcoursTab from './components/ParcoursTab.jsx'
-import RewardsTab from './components/RewardsTab.jsx'
 import TabBar from './components/TabBar.jsx'
-import DailyChallenge from './components/DailyChallenge.jsx'
-import Shop from './components/Shop.jsx'
+// Écrans secondaires : chargés à la demande (code-splitting). Le gros contenu
+// des leçons ne pèse donc plus sur le chargement initial.
+const ModuleHome = lazy(() => import('./components/ModuleHome.jsx'))
+const SubModuleScreen = lazy(() => import('./components/SubModuleScreen.jsx'))
+const Tools = lazy(() => import('./components/Tools.jsx'))
+const Glossaire = lazy(() => import('./components/Glossaire.jsx'))
+const ActionPlan = lazy(() => import('./components/ActionPlan.jsx'))
+const MomentScreen = lazy(() => import('./components/MomentScreen.jsx'))
+const ParcoursTab = lazy(() => import('./components/ParcoursTab.jsx'))
+const RewardsTab = lazy(() => import('./components/RewardsTab.jsx'))
+const About = lazy(() => import('./components/About.jsx'))
+const Certificate = lazy(() => import('./components/Certificate.jsx'))
+const FinalCelebration = lazy(() => import('./components/FinalCelebration.jsx'))
+const DailyChallenge = lazy(() => import('./components/DailyChallenge.jsx'))
+const Shop = lazy(() => import('./components/Shop.jsx'))
 import { loadState, saveState, clearState, exportState, parseImportedState } from './lib/storage.js'
 import { recordQuizResult, touchActivity } from './lib/adaptive.js'
 import { ACTIONS } from './data/actions.js'
+import { TOTAL_SOUS_MODULES } from './data/curriculum.js'
 import {
   lessonReward, REWARD, weekKey, dayKey, chestState, getDailyChallenge,
   isXpBoostActive, pendingFreeze, SHOP,
@@ -159,8 +166,9 @@ export default function App() {
 
   const completeSub = (subId, result) => {
     const isRevision = completedSubs.includes(subId)
+    const nextCompleted = isRevision ? completedSubs : [...completedSubs, subId]
     if (!isRevision) {
-      setCompletedSubs([...completedSubs, subId])
+      setCompletedSubs(nextCompleted)
     }
     if (result?.total) {
       setQuizStats((s) => recordQuizResult(s, subId, result))
@@ -168,11 +176,15 @@ export default function App() {
       award(r.xp, r.coins)
     }
     setActiveDays((d) => touchActivity(d))
+    // Cette leçon vient-elle de compléter TOUT le parcours ? → célébration.
+    const justFinishedAll = !isRevision && nextCompleted.length >= TOTAL_SOUS_MODULES
     // Retour au contexte d'origine : le Moment de vie si on en vient, sinon le module.
     setView(
-      view?.fromMoment
-        ? { page: 'moment', momentId: view.fromMoment }
-        : { moduleId: Number(subId.split('.')[0]) }
+      justFinishedAll
+        ? { page: 'complete' }
+        : view?.fromMoment
+          ? { page: 'moment', momentId: view.fromMoment }
+          : { moduleId: Number(subId.split('.')[0]) }
     )
   }
 
@@ -254,6 +266,27 @@ export default function App() {
         onBack={() => setView(null)}
       />
     )
+  } else if (view?.page === 'about') {
+    screen = <About onBack={() => setView(null)} />
+  } else if (view?.page === 'certificate') {
+    screen = (
+      <Certificate
+        moduleId={view.moduleId}
+        completedSubs={completedSubs}
+        quizStats={quizStats}
+        onBack={() => setView(view.moduleId ? { moduleId: view.moduleId } : null)}
+      />
+    )
+  } else if (view?.page === 'complete') {
+    screen = (
+      <FinalCelebration
+        completedSubs={completedSubs}
+        quizStats={quizStats}
+        gam={gam}
+        onOpenCertificate={(moduleId) => setView({ page: 'certificate', moduleId })}
+        onBack={() => setView(null)}
+      />
+    )
   } else if (view?.subId) {
     screen = (
       <SubModuleScreen
@@ -281,6 +314,7 @@ export default function App() {
         moduleId={view.moduleId}
         completedSubs={completedSubs}
         onOpenSub={(subId) => setView({ moduleId: view.moduleId, subId })}
+        onOpenCertificate={() => setView({ page: 'certificate', moduleId: view.moduleId })}
         onBack={() => setView(null)}
       />
     )
@@ -325,6 +359,8 @@ export default function App() {
         onOpenTools={() => setView({ page: 'tools' })}
         onOpenGlossaire={() => setView({ page: 'glossaire' })}
         onOpenActions={() => setView({ page: 'actions' })}
+        onOpenAbout={() => setView({ page: 'about' })}
+        onOpenComplete={() => setView({ page: 'complete' })}
         onExport={handleExport}
         onImport={handleImport}
         onRestart={restart}
@@ -337,7 +373,11 @@ export default function App() {
 
   return (
     <div className={`app ${showTabBar ? 'has-tabbar' : ''}`}>
-      <main id="main">{screen}</main>
+      <main id="main">
+        <Suspense fallback={<div className="lazy-fallback" aria-busy="true">Chargement…</div>}>
+          {screen}
+        </Suspense>
+      </main>
       {profile && (
         <CoachDrawer
           profile={profile}

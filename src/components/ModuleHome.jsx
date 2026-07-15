@@ -4,7 +4,7 @@ import { getModuleProgress } from '../lib/progression.js'
 // Page d'un module : ses sous-modules et leur état, navigation libre.
 // Chaque sous-module suit les 4 étapes : Prise de connaissance → Cas concret
 // → Synthèse → Quiz.
-export default function ModuleHome({ moduleId, completedSubs, onOpenSub, onBack }) {
+export default function ModuleHome({ moduleId, completedSubs, onOpenSub, onOpenCertificate, onBack }) {
   const module = getModule(moduleId)
   const { done, total } = getModuleProgress(moduleId, completedSubs)
   const next = module.sousModules.find((s) => !completedSubs.includes(s.id))
@@ -65,7 +65,14 @@ export default function ModuleHome({ moduleId, completedSubs, onOpenSub, onBack 
         </button>
       )}
       {done === total && (
-        <div className="module-complete-note">🎉 Module complété, bravo !</div>
+        <>
+          <div className="module-complete-note">🎉 Module complété, bravo !</div>
+          {onOpenCertificate && (
+            <button className="btn btn-secondary" onClick={onOpenCertificate}>
+              🎓 Obtenir mon attestation
+            </button>
+          )}
+        </>
       )}
     </>
   )

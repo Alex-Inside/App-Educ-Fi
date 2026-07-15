@@ -2437,3 +2437,300 @@ button.module-card {
   border-radius: 999px;
   vertical-align: middle;
 }
+
+/* ============================================================
+   À propos / mentions légales · Attestation · Célébration finale
+   ============================================================ */
+
+/* ---------- Boutons complémentaires ---------- */
+.btn-secondary {
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-shadow: none;
+  border: 2px solid var(--accent);
+}
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+/* Bloc « parcours terminé » cliquable */
+.result-header-btn {
+  width: 100%;
+  border: none;
+  background: var(--accent-soft);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: inherit;
+}
+.result-header-btn:active {
+  transform: scale(0.99);
+}
+
+/* ---------- À propos ---------- */
+.about-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 18px 20px;
+  margin-bottom: 14px;
+}
+.about-block h3 {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+.about-block p {
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0 0 10px;
+}
+.about-tagline {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 700;
+}
+.about-privacy {
+  background: var(--accent-soft);
+  border-color: transparent;
+}
+.about-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.about-list li { margin-bottom: 6px; }
+.about-note, .about-legal-todo {
+  font-size: 0.9rem;
+  font-style: italic;
+}
+.about-legal {
+  margin: 0;
+}
+.about-legal dt {
+  font-weight: 800;
+  color: var(--text);
+  margin-top: 10px;
+  font-size: 0.92rem;
+}
+.about-legal dd {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+}
+.about-version {
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+
+/* ---------- Attestation (Certificate) ---------- */
+.certif-warning {
+  background: var(--amber-soft);
+  color: var(--text);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+}
+.certif-name-field {
+  margin: 6px 0 16px;
+}
+.certif-name-field label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.certif-name-field input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 1rem;
+  background: var(--card);
+  color: var(--text);
+}
+
+.certificate {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 6px;
+  box-shadow: var(--shadow-hard);
+}
+.certificate-inner {
+  border: 3px double var(--accent);
+  border-radius: 14px;
+  padding: 26px 22px;
+  text-align: center;
+}
+.certif-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.certif-brand-name {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--accent);
+}
+.certif-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+.certif-title {
+  font-size: 1.25rem;
+  margin: 6px 0 16px;
+  color: var(--text);
+}
+.certif-body {
+  color: var(--text-muted);
+  margin: 4px 0;
+}
+.certif-nom {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--accent);
+  border-bottom: 2px solid var(--border);
+  display: inline-block;
+  padding: 4px 20px 8px;
+  margin: 8px 0 12px;
+  min-width: 60%;
+}
+.certif-lessons {
+  list-style: none;
+  padding: 0;
+  margin: 10px auto 14px;
+  text-align: left;
+  max-width: 340px;
+  color: var(--text);
+}
+.certif-lessons li {
+  padding: 3px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.certif-mastery {
+  color: var(--text-muted);
+}
+.certif-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 22px;
+  gap: 12px;
+}
+.certif-date, .certif-sign-name {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.certif-sign {
+  text-align: center;
+}
+.certif-sign-mascot { display: flex; justify-content: center; }
+.certif-disclaimer {
+  margin-top: 18px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Impression : n'imprimer que l'attestation, en pleine page */
+@media print {
+  .no-print, .coach-fab, .tabbar { display: none !important; }
+  .app, .app main { padding: 0 !important; display: block !important; }
+  .certif-screen { padding: 0 !important; }
+  .certificate {
+    box-shadow: none;
+    border: none;
+  }
+  .certificate-inner {
+    border-color: #1f6f50;
+  }
+  .certif-brand-name, .certif-nom, .certif-title { color: #1f6f50 !important; }
+  body { background: #fff !important; }
+}
+
+/* ---------- Célébration finale ---------- */
+.celebrate {
+  text-align: center;
+  padding-top: 8px;
+}
+.celebrate-confetti {
+  font-size: 1.6rem;
+  letter-spacing: 4px;
+  margin-bottom: 4px;
+}
+.celebrate-mascot {
+  margin: 4px auto 8px;
+  display: block;
+}
+.celebrate-title {
+  font-size: 1.7rem;
+  color: var(--accent);
+  margin: 4px 0 8px;
+}
+.celebrate-sub {
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0 auto 18px;
+  max-width: 30rem;
+}
+.celebrate-stats {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+.celebrate-stats .stat-card {
+  flex: 1;
+  max-width: 120px;
+}
+.celebrate-certs {
+  text-align: left;
+}
+.celebrate-certs-note {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  margin: 4px 0 12px;
+}
+.celebrate-cert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.celebrate-cert-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
+}
+.celebrate-cert-btn:active { transform: scale(0.99); }
+.celebrate-cert-emoji { font-size: 1.6rem; }
+.celebrate-cert-text { display: flex; flex-direction: column; }
+.celebrate-cert-text b { color: var(--text); }
+.celebrate-cert-text small { color: var(--accent); font-weight: 700; }
+
+/* Fallback de chargement des écrans différés (code-splitting) */
+.lazy-fallback {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  color: var(--text-muted);
+  font-weight: 700;
+}

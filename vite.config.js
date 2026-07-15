@@ -7,4 +7,16 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ command, isPreview }) => ({
   base: command === 'build' || isPreview ? '/App-Educ-Fi/' : '/',
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        // Sépare les dépendances (React) du code applicatif : meilleur cache
+        // (le vendor bouge rarement) et chargement initial allégé.
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) return 'vendor'
+          return undefined
+        },
+      },
+    },
+  },
 }))
