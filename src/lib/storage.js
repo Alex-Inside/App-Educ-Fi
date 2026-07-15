@@ -17,10 +17,10 @@ const EMPTY = {
   // actionsDone = sous-modules dont l'action du Plan d'action est cochée
   actionsDone: [],
   // gamification : XP/pièces cumulés + suivi hebdo/jour (coffre, défi, ligue)
-  // + inventaire boutique (jokers, gels de série, boost XP, thèmes possédés)
+  // + inventaire boutique (jokers, gels, boost XP, thèmes, simulateurs premium)
   gam: {
     xp: 0, coins: 0, weekKey: null, weekXP: 0, lastChallenge: null, lastChestWeek: null,
-    jokers: 0, freezes: 0, xpBoostUntil: 0, themes: [],
+    jokers: 0, freezes: 0, xpBoostUntil: 0, themes: [], tools: [],
   },
   settings: { theme: 'auto', accent: 'foret' },
 }

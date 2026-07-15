@@ -1,9 +1,11 @@
 import { getStreak, globalMastery } from '../lib/adaptive.js'
 import { levelInfo, chestState, leagueBoard, REWARD } from '../lib/gamification.js'
-import { getSousModule } from '../data/curriculum.js'
+import { getSousModule, MODULES, getModuleNumber } from '../data/curriculum.js'
+import { getModuleProgress } from '../lib/progression.js'
 
 // Onglet Récompenses — niveau & XP, pièces, série, défi du jour, coffre hebdo,
-// ligue (émulée localement) et badges des leçons réussies sans faute.
+// tampons de validation des modules (→ attestation), ligue (émulée localement)
+// et badges des leçons réussies sans faute.
 export default function RewardsTab({
   completedSubs,
   quizStats,
@@ -13,6 +15,7 @@ export default function RewardsTab({
   onOpenChallenge,
   onClaimChest,
   onOpenShop,
+  onOpenCertificate,
 }) {
   const streak = getStreak(activeDays)
   const mastery = globalMastery(quizStats)
@@ -100,6 +103,35 @@ export default function RewardsTab({
         {chest.available && (
           <button className="chest-open" onClick={onClaimChest}>Ouvrir</button>
         )}
+      </div>
+
+      {/* Tampons de validation des modules */}
+      <div className="map-title">Tampons de modules</div>
+      <div className="stamp-grid">
+        {MODULES.map((m) => {
+          const { done, total } = getModuleProgress(m.id, completedSubs)
+          const complete = done === total
+          const started = done > 0 && !complete
+          const num = getModuleNumber(m.id)
+          return (
+            <button
+              key={m.id}
+              className={`stamp ${complete ? 'done' : started ? 'started' : 'todo'}`}
+              onClick={complete ? () => onOpenCertificate(m.id) : undefined}
+              disabled={!complete}
+              title={m.titre}
+              aria-label={`Module ${num} · ${m.titre} : ${complete ? 'validé, voir l’attestation' : `${done} leçon(s) sur ${total}`}`}
+            >
+              {complete && <span className="stamp-seal" aria-hidden="true">VALIDÉ</span>}
+              <span className="stamp-emoji" aria-hidden="true">{m.emoji}</span>
+              <span className="stamp-num">Module {num}</span>
+              <span className="stamp-title">{m.titre}</span>
+              <span className="stamp-state">
+                {complete ? '🎓 Attestation →' : `${done}/${total}`}
+              </span>
+            </button>
+          )
+        })}
       </div>
 
       {/* Ligue (émulation locale) */}

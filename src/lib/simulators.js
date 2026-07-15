@@ -77,6 +77,62 @@ export function computeGoal(montant, mois, capaciteMensuelle = null) {
   return { mensualite, verdict, moisRealiste }
 }
 
+// ---------- Crédit conso (module 3) — simulateur premium ----------
+
+// Mensualité et coût total réel d'un crédit : la formule d'annuité classique,
+// exactement ce que le module 3.1 enseigne (mensualité × mois − capital).
+export function computeCredit(montant, taegAnnuel, mois) {
+  if (!montant || montant <= 0 || !mois || mois <= 0) return null
+  const t = (taegAnnuel ?? 0) / 100 / 12
+  const mensualite = t > 0 ? (montant * t) / (1 - Math.pow(1 + t, -mois)) : montant / mois
+  const total = mensualite * mois
+  return {
+    mensualite: Math.round(mensualite),
+    total: Math.round(total),
+    cout: Math.round(total - montant),
+    coutPct: Math.round(((total - montant) / montant) * 100),
+  }
+}
+
+// ---------- Capacité d'emprunt immobilier (module 7) — simulateur premium ----------
+
+// Règle des ~35 % d'endettement (assurance comprise) enseignée en 7.2 :
+// mensualité max → capital empruntable (annuité inversée), + rappel des frais.
+export function computeCapacite(revenuNet, chargesCredits, tauxAnnuel, annees) {
+  if (!revenuNet || revenuNet <= 0 || !annees || annees <= 0) return null
+  const mensualiteMax = Math.max(0, revenuNet * 0.35 - (chargesCredits || 0))
+  if (mensualiteMax <= 0) {
+    return { mensualiteMax: 0, capital: 0, tauxEndettement: 35, sature: true }
+  }
+  const t = (tauxAnnuel ?? 0) / 100 / 12
+  const n = annees * 12
+  const capital = t > 0 ? (mensualiteMax * (1 - Math.pow(1 + t, -n))) / t : mensualiteMax * n
+  return {
+    mensualiteMax: Math.round(mensualiteMax),
+    capital: Math.round(capital),
+    fraisNotaire: Math.round(capital * 0.08), // ordre de grandeur ancien (~7-8 %)
+    sature: false,
+  }
+}
+
+// ---------- Abondement (module épargne salariale) — simulateur premium ----------
+
+// Versement + règle d'abondement (taux %, plafond €) → complément employeur,
+// total placé, et versement optimal qui capte tout l'abondement (module 4.3).
+export function computeAbondement(versement, tauxPct, plafond) {
+  if (!versement || versement <= 0 || !tauxPct || tauxPct <= 0) return null
+  const cap = plafond && plafond > 0 ? plafond : Infinity
+  const abonde = Math.min((versement * tauxPct) / 100, cap)
+  const versementOptimal = cap !== Infinity ? Math.ceil((cap * 100) / tauxPct) : null
+  return {
+    abonde: Math.round(abonde),
+    total: Math.round(versement + abonde),
+    gainPct: Math.round((abonde / versement) * 100),
+    plafondAtteint: abonde >= cap - 0.5,
+    versementOptimal,
+  }
+}
+
 // ---------- Format ----------
 
 export function euros(n) {

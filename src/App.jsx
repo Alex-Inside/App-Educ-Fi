@@ -30,7 +30,7 @@ import {
 
 const EMPTY_GAM = {
   xp: 0, coins: 0, weekKey: null, weekXP: 0, lastChallenge: null, lastChestWeek: null,
-  jokers: 0, freezes: 0, xpBoostUntil: 0, themes: [],
+  jokers: 0, freezes: 0, xpBoostUntil: 0, themes: [], tools: [],
 }
 
 const THEMES = ['auto', 'light', 'dark']
@@ -104,6 +104,12 @@ export default function App() {
         setGam((g) => ({ ...g, coins: g.coins - item.price, themes: [...g.themes, item.accent] }))
       }
       setSettings((s) => ({ ...s, accent: item.accent }))
+      return
+    }
+    if (item.kind === 'tool') {
+      // Simulateur premium : achat unique, définitif.
+      if ((gam.tools ?? []).includes(item.tool)) return
+      setGam((g) => ({ ...g, coins: g.coins - item.price, tools: [...(g.tools ?? []), item.tool] }))
       return
     }
     setGam((g) => {
@@ -221,7 +227,14 @@ export default function App() {
       />
     )
   } else if (view?.page === 'tools') {
-    screen = <Tools onBack={() => setView(null)} />
+    screen = (
+      <Tools
+        gam={gam}
+        completedSubs={completedSubs}
+        onOpenShop={() => setView({ page: 'shop' })}
+        onBack={() => setView(null)}
+      />
+    )
   } else if (view?.page === 'glossaire') {
     screen = <Glossaire onBack={() => setView(null)} onOpenSub={openSub} />
   } else if (view?.page === 'moment') {
@@ -249,6 +262,7 @@ export default function App() {
     screen = (
       <Shop
         gam={gam}
+        completedSubs={completedSubs}
         activeAccent={settings.accent}
         onBuy={buyItem}
         onApplyAccent={applyAccent}
@@ -267,14 +281,26 @@ export default function App() {
       />
     )
   } else if (view?.page === 'about') {
-    screen = <About onBack={() => setView(null)} />
+    screen = (
+      <About
+        onBack={() => setView(null)}
+        onExport={handleExport}
+        onImport={handleImport}
+        onRestart={restart}
+      />
+    )
   } else if (view?.page === 'certificate') {
     screen = (
       <Certificate
         moduleId={view.moduleId}
         completedSubs={completedSubs}
         quizStats={quizStats}
-        onBack={() => setView(view.moduleId ? { moduleId: view.moduleId } : null)}
+        onBack={() => {
+          // Retour vers l'écran d'origine : Récompenses, Célébration ou module.
+          if (view.from === 'rewards') goTab('recompenses')
+          else if (view.from === 'complete') setView({ page: 'complete' })
+          else setView(view.moduleId ? { moduleId: view.moduleId } : null)
+        }}
       />
     )
   } else if (view?.page === 'complete') {
@@ -283,7 +309,7 @@ export default function App() {
         completedSubs={completedSubs}
         quizStats={quizStats}
         gam={gam}
-        onOpenCertificate={(moduleId) => setView({ page: 'certificate', moduleId })}
+        onOpenCertificate={(moduleId) => setView({ page: 'certificate', moduleId, from: 'complete' })}
         onBack={() => setView(null)}
       />
     )
@@ -338,6 +364,7 @@ export default function App() {
         onOpenChallenge={() => setView({ page: 'challenge' })}
         onClaimChest={claimChest}
         onOpenShop={() => setView({ page: 'shop' })}
+        onOpenCertificate={(moduleId) => setView({ page: 'certificate', moduleId, from: 'rewards' })}
       />
     )
   } else {
@@ -361,9 +388,6 @@ export default function App() {
         onOpenActions={() => setView({ page: 'actions' })}
         onOpenAbout={() => setView({ page: 'about' })}
         onOpenComplete={() => setView({ page: 'complete' })}
-        onExport={handleExport}
-        onImport={handleImport}
-        onRestart={restart}
       />
     )
   }

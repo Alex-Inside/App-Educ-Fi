@@ -121,9 +121,16 @@ export function chestState({ weekXP = 0, lastChestWeek = null }, now = Date.now(
 // ---------- Boutique (dépense de pièces — jamais d'argent réel) ----------
 
 export const SHOP = [
+  // Simulateurs premium : les pièces servent à débloquer de vrais outils,
+  // chacun lié au module qui enseigne la notion (module terminé requis).
+  { id: 'tool-credit', emoji: '💳', name: 'Simulateur crédit', desc: 'Mensualité, coût total et surcoût réel d’un crédit.', price: 150, kind: 'tool', tool: 'credit', requiresModule: 3 },
+  { id: 'tool-abondement', emoji: '💼', name: 'Simulateur abondement', desc: 'Le versement optimal pour capter tout l’abondement employeur.', price: 150, kind: 'tool', tool: 'abondement', requiresModule: 4 },
+  { id: 'tool-immo', emoji: '🏡', name: 'Simulateur capacité d’emprunt', desc: 'Combien tu peux emprunter pour un achat immobilier (règle des 35 %).', price: 200, kind: 'tool', tool: 'immo', requiresModule: 7 },
+  // Boosts & consommables
   { id: 'xpboost', emoji: '⚡', name: 'Double XP · 24 h', desc: 'Tous tes gains d’XP comptent double pendant 24 heures.', price: 120, kind: 'boost' },
   { id: 'joker', emoji: '🃏', name: 'Joker de quiz', desc: 'Élimine une mauvaise réponse pendant un quiz.', price: 80, kind: 'stack', field: 'jokers' },
   { id: 'freeze', emoji: '🧊', name: 'Gel de série', desc: 'Protège ta série si tu sautes un jour.', price: 100, kind: 'stack', field: 'freezes' },
+  // Thèmes cosmétiques
   { id: 'ocean', emoji: '🌊', name: 'Thème Océan', desc: 'Habille l’app en bleu profond.', price: 200, kind: 'theme', accent: 'ocean' },
   { id: 'corail', emoji: '🪸', name: 'Thème Corail', desc: 'Une ambiance corail chaleureuse.', price: 200, kind: 'theme', accent: 'corail' },
   { id: 'violet', emoji: '🔮', name: 'Thème Améthyste', desc: 'Un violet doux et élégant.', price: 200, kind: 'theme', accent: 'violet' },

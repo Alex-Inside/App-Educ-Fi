@@ -1,10 +1,14 @@
 import { SHOP, isXpBoostActive } from '../lib/gamification.js'
+import { getModule, getModuleNumber } from '../data/curriculum.js'
+import { isModuleComplete } from '../lib/progression.js'
 
-// Boutique — dépense tes pièces (jamais d'argent réel). Boosts, jokers,
-// gels de série et thèmes cosmétiques.
-export default function Shop({ gam, activeAccent, onBuy, onApplyAccent, onBack }) {
+// Boutique — dépense tes pièces (jamais d'argent réel). Les simulateurs
+// premium se débloquent avec des pièces UNE FOIS le module lié terminé :
+// les pièces récompensent l'apprentissage par de vrais outils.
+export default function Shop({ gam, completedSubs = [], activeAccent, onBuy, onApplyAccent, onBack }) {
   const boostActive = isXpBoostActive(gam)
   const boostLeft = boostActive ? Math.ceil((gam.xpBoostUntil - Date.now()) / 3600000) : 0
+  const tools = gam.tools ?? []
 
   return (
     <>
@@ -25,9 +29,20 @@ export default function Shop({ gam, activeAccent, onBuy, onApplyAccent, onBack }
           const active = item.kind === 'theme' && activeAccent === item.accent
           const canBuy = gam.coins >= item.price
           const stackCount = item.kind === 'stack' ? gam[item.field] ?? 0 : 0
+          const isTool = item.kind === 'tool'
+          const toolOwned = isTool && tools.includes(item.tool)
+          const moduleOk = isTool && isModuleComplete(item.requiresModule, completedSubs)
+          const reqModule = isTool ? getModule(item.requiresModule) : null
 
           let right
-          if (item.kind === 'theme') {
+          if (isTool) {
+            if (toolOwned) right = <span className="shop-owned">Débloqué ✓</span>
+            else right = (
+              <button className="shop-buy" disabled={!canBuy || !moduleOk} onClick={() => onBuy(item)}>
+                🪙 {item.price}
+              </button>
+            )
+          } else if (item.kind === 'theme') {
             if (active) right = <span className="shop-owned">Actif ✓</span>
             else if (owned) right = <button className="shop-buy ghost" onClick={() => onApplyAccent(item.accent)}>Appliquer</button>
             else right = <button className="shop-buy" disabled={!canBuy} onClick={() => onBuy(item)}>🪙 {item.price}</button>
@@ -38,7 +53,7 @@ export default function Shop({ gam, activeAccent, onBuy, onApplyAccent, onBack }
           }
 
           return (
-            <div key={item.id} className="shop-item">
+            <div key={item.id} className={`shop-item ${isTool ? 'shop-item-tool' : ''}`}>
               <span className="shop-emoji" aria-hidden="true">{item.emoji}</span>
               <div className="shop-info">
                 <div className="shop-name">
@@ -46,6 +61,13 @@ export default function Shop({ gam, activeAccent, onBuy, onApplyAccent, onBack }
                   {item.kind === 'stack' && stackCount > 0 && <span className="shop-count">×{stackCount}</span>}
                 </div>
                 <div className="shop-desc">{item.desc}</div>
+                {isTool && !toolOwned && (
+                  <div className={`shop-req ${moduleOk ? 'ok' : ''}`}>
+                    {moduleOk
+                      ? `✓ Module ${getModuleNumber(item.requiresModule)} terminé — à toi de jouer`
+                      : `🔒 Termine le module ${getModuleNumber(item.requiresModule)} · ${reqModule.titre}`}
+                  </div>
+                )}
               </div>
               {right}
             </div>

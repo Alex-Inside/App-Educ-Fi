@@ -1,12 +1,16 @@
+import { useRef } from 'react'
 import { BRAND } from '../brand.js'
 
-// Page « À propos & mentions légales ».
-// Deux blocs distincts :
+// Page « À propos, données & mentions légales ».
+// Trois blocs distincts :
 // - Confidentialité : DÉFINITIF et exact (l'app ne collecte rien, tout est
 //   local). C'est aussi l'argument clé du positionnement B2B.
+// - Tes données : export / import / réinitialisation (déplacés depuis
+//   l'accueil pour alléger ce dernier).
 // - Mentions légales : l'identité de l'éditeur dépend de la structure qui
 //   exploitera l'app — laissée en champs À COMPLÉTER, à ne pas inventer.
-export default function About({ onBack }) {
+export default function About({ onBack, onExport, onImport, onRestart }) {
+  const fileRef = useRef(null)
   return (
     <div className="about">
       <div className="module-header">
@@ -40,6 +44,36 @@ export default function About({ onBack }) {
           Comme rien ne quitte ton appareil, effacer les données du site ou changer de
           navigateur efface aussi ta progression : pense à l’exporter avant.
         </p>
+      </section>
+
+      <section className="about-block">
+        <h3>💾 Tes données</h3>
+        <p>
+          Exporte ta progression (fichier JSON) pour la sauvegarder ou la transférer sur
+          un autre appareil, réimporte-la, ou repars de zéro.
+        </p>
+        <div className="about-data-actions">
+          <button className="btn btn-secondary" onClick={onExport}>
+            ⬇️ Exporter ma progression
+          </button>
+          <button className="btn btn-secondary" onClick={() => fileRef.current?.click()}>
+            ⬆️ Importer une progression
+          </button>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="application/json"
+            hidden
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) onImport(file)
+              e.target.value = ''
+            }}
+          />
+          <button className="btn btn-ghost about-reset" onClick={onRestart}>
+            Tout réinitialiser
+          </button>
+        </div>
       </section>
 
       <section className="about-block about-disclaimer-block">

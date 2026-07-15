@@ -47,7 +47,7 @@ export const MODULES = [
   {
     id: 5,
     emoji: '📊',
-    titre: 'Investir : premiers pas',
+    titre: 'Investir',
     niveau: 'Intermédiaire',
     description: 'Inflation, actions, ETF, PEA, méthode DCA',
     sousModules: [
@@ -74,7 +74,7 @@ export const MODULES = [
   {
     id: 4,
     emoji: '💼',
-    titre: 'L’épargne salariale',
+    titre: 'Activer son épargne salariale',
     niveau: 'Intermédiaire',
     description: 'Intéressement, participation, PEE, abondement, PER collectif',
     sousModules: [
@@ -114,7 +114,7 @@ export const MODULES = [
   {
     id: 9,
     emoji: '🎓',
-    titre: 'Niveau expert',
+    titre: 'Devenir expert',
     niveau: 'Expert',
     description: 'Dérivés, CFD, produits structurés, private equity, levier',
     sousModules: [
