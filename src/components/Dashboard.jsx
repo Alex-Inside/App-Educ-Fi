@@ -151,7 +151,7 @@ export default function Dashboard({
         <span className="parcours-cta-emoji" aria-hidden="true">🗺️</span>
         <span className="parcours-cta-text">
           <b>Voir tout mon parcours</b>
-          <small>9 modules pas à pas, ou par étape de vie</small>
+          <small>8 modules pas à pas, ou par étape de vie</small>
         </span>
         <span aria-hidden="true">→</span>
       </button>

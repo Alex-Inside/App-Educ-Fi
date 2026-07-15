@@ -12,7 +12,7 @@
 // `outil` : renvoie vers un simulateur interne de l'app.
 
 export const DISCLAIMER =
-  'FinPath est un outil éducatif : ceci est une piste de démarche, jamais un conseil en investissement ni une recommandation de produit ou d’établissement.'
+  'Édufi est un outil éducatif : ceci est une piste de démarche, jamais un conseil en investissement ni une recommandation de produit ou d’établissement.'
 
 export const ACTIONS = {
   // ---------- Module 1 · Gérer son budget ----------

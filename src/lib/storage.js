@@ -82,7 +82,7 @@ export function exportState(state) {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = 'finpath-progression.json'
+  a.download = 'edufi-progression.json'
   a.click()
   URL.revokeObjectURL(url)
 }

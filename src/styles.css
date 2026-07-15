@@ -1647,8 +1647,13 @@ button.module-card {
    Navigation par onglets + Parcours « Pas à pas »
    ============================================================ */
 
+/* Place pour le bouton coach flottant en bas d'écran (écrans sans tabbar) */
+.app main {
+  padding-bottom: 96px;
+}
+
 .app.has-tabbar main {
-  padding-bottom: 78px; /* place pour la barre d'onglets fixe */
+  padding-bottom: 150px; /* barre d'onglets fixe + bouton coach au-dessus */
 }
 
 .tabbar {

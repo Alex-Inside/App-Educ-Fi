@@ -8,7 +8,7 @@ import { masteryOf } from '../lib/adaptive.js'
 export default function ProgressMap({ profile, completedSubs = [], quizStats = {}, onSelect }) {
   return (
     <div>
-      <div className="map-title">Ton parcours — 9 modules en accès libre</div>
+      <div className="map-title">Ton parcours — 8 modules en accès libre</div>
       <div className="module-list">
         {MODULES.map((module) => {
           const { done, total } = getModuleProgress(module.id, completedSubs)

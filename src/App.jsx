@@ -184,7 +184,7 @@ export default function App() {
   const handleImport = async (file) => {
     const imported = parseImportedState(await file.text())
     if (!imported?.profile) {
-      window.alert("Ce fichier n'est pas un export FinPath valide.")
+      window.alert("Ce fichier n'est pas un export Édufi valide.")
       return
     }
     setProfile(imported.profile)
